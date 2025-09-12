@@ -10,7 +10,7 @@ import java.io.*;
 public class LibraryManager {
 
     /** The object doing all the actual work. */
-    private Library _library = new Library(_defaultRules);
+   // private Library _library = new Library(_defaultRules);
 
     //FIXME maybe define constructors
 
@@ -35,12 +35,12 @@ public class LibraryManager {
      * import file.
      */
     public void importFile(String filename) throws ImportFileException {
-      try {
-        if (filename != null && !filename.isEmpty())
-          _library.importFile(filename);
-      } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
-        throw new ImportFileException(filename, e);
-      }
+      // try {
+      //   if (filename != null && !filename.isEmpty())
+      //     _library.importFile(filename);
+      // } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
+      //   throw new ImportFileException(filename, e);
+      // }
     }
 
     //FIXME implement other methods
