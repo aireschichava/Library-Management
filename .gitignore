@@ -3,3 +3,10 @@
 *.outhyp
 *.diff
 *.dat
+/bin/
+README2.md
+Marmaid-PO-uilib.txt
+.DS_Store
+.classpath
+.project
+.settings/

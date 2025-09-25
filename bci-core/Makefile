@@ -6,3 +6,4 @@ all:
 
 clean:
 	$(RM) $(JARNAME).jar `find . -name \*.class`
+	(cd src; find . -name \*.class -exec rm {} \;)

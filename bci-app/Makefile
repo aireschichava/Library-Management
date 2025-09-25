@@ -1,6 +1,7 @@
 #PO_UILIB_DIR=../..
 #PO_UILIB_DIR=../../po-uilib
-PO_UILIB_DIR=../../../
+PO_UILIB_DIR=../../..
+# Updated to point to the correct location of po-uilib.jar (one directory above 122)
 JARNAME=bci-app
 
 all:
