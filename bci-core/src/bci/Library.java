@@ -26,7 +26,7 @@ class Library implements Serializable {
      */
     void importFile(String filename) throws UnrecognizedEntryException, IOException
 	    /* FIXME maybe other exceptions */  {
-      //FIXME implement method
+      System.out.print("teste")
     }
 
 }
