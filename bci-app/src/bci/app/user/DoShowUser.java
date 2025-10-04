@@ -3,6 +3,7 @@ package bci.app.user;
 import bci.LibraryManager;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import pt.tecnico.uilib.forms.Form;
 //FIXME maybe import classes
 
 /**
@@ -17,7 +18,9 @@ class DoShowUser extends Command<LibraryManager> {
 
     @Override
     protected final void execute() throws CommandException {
-        //FIXME implement command
+        int id = Form.requestInteger(Prompt.userId());
+        String userInfo = _receiver.showUser(id);
+         _display.popup(userInfo);
     }
 
 }

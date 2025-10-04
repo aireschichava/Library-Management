@@ -1,7 +1,9 @@
 package bci;
 
+
 import bci.exceptions.*;
 import java.io.*;
+import bci.user.*;
 //FIXME maybe import classes
 
 /**
@@ -10,7 +12,7 @@ import java.io.*;
 public class LibraryManager {
 
     /** The object doing all the actual work. */
-   // private Library _library = new Library(_defaultRules);
+   private Library _library = new Library();
 
     //FIXME maybe define constructors
 
@@ -44,5 +46,21 @@ public class LibraryManager {
     }
 
     //FIXME implement other methods
+    public int getCurrentDate() {
+        return _library.getCurrentDate();
+    }
 
+    public void advanceDate(int days) {
+        if (days > 0) _library.advanceDate(days);
+    }
+
+    public User registerUser(String name, String email) {
+        User user = new User(name, email);
+        _library.addUser(user);
+        return user;
+    }
+
+    public String showUser(int id) {
+        return _library.showUser(id);
+    }
 }
