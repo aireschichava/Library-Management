@@ -1,8 +1,11 @@
 package bci.app.user;
 
 import bci.LibraryManager;
+import bci.app.exceptions.UserRegistrationFailedException;
+import bci.user.User;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import pt.tecnico.uilib.forms.Form;
 //FIXME maybe import classes
 
 /**
@@ -16,8 +19,12 @@ class DoRegisterUser extends Command<LibraryManager> {
     }
 
     @Override
-    protected final void execute() throws CommandException {
-        //FIXME implement command
+    protected final void execute() throws CommandException { 
+            //lançar a excepção
+            String name = Form.requestString(Prompt.userName());
+            String email = Form.requestString(Prompt.userEMail());
+            User user = _receiver.registerUser(name, email);
+            _display.popup(Message.registrationSuccessful(user.getId()));
     }
 
 }
