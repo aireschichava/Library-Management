@@ -1,0 +1,559 @@
+fgrep: warning: fgrep is obsolescent; using grep -F
+fgrep: warning: fgrep is obsolescent; using grep -F
+egrep: warning: egrep is obsolescent; using grep -E
+fgrep: warning: fgrep is obsolescent; using grep -F
+Checking core structure...
+compile_project:58: no matches found: *.in
+rm -f bci-core.jar `find . -name \*.class`
+(cd src; javac -encoding UTF-8 `find . -name \*.java`)
+(cd src; jar cf ../bci-core.jar `find . -name \*.class -o -name \*.java`)
+Checking manager interface structure...
+rm -f bci-app.jar `find . -name \*.class`
+(cd src; javac -cp /usr/share/java/po-uilib.jar:../../bci-core/bci-core.jar -encoding UTF-8 `find . -name \*.java`)
+(cd src; jar cf ../bci-app.jar `find . -name \*.class -o -name \*.java` )
+<font color='white' style='background: blue;'>---------------------------A-01-01-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Din=A-01-01-M-ok.in -Dout=$LOGS/A-01-01-M-ok.out bci.app.App
+<font color='green'>TEST PASSED!</font>
+<font color='white' style='background: blue;'>---------------------------A-01-02-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Din=A-01-02-M-ok.in -Dout=$LOGS/A-01-02-M-ok.out bci.app.App
+<font color='green'>TEST PASSED!</font>
+<font color='white' style='background: blue;'>---------------------------A-01-03-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-01-03-M-ok.import -Din=A-01-03-M-ok.in -Dout=$LOGS/A-01-03-M-ok.out bci.app.App
+*** expected/A-01-03-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-01-03-M-ok.out	2025-10-07 18:19:49.028332716 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,20 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: 1 - 50 de 50 - Livro - Bairro Alto e o Budismo Zen - 25 - Ficção - Zun Tse Fonseca - 1234567891
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 14,20 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: 1 50 Ficção Zun Tse Fonseca, 1234567891
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-01-05-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-01-05-M-ok.import -Din=A-01-05-M-ok.in -Dout=$LOGS/A-01-05-M-ok.out bci.app.App
+*** expected/A-01-05-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-01-05-M-ok.out	2025-10-07 18:19:49.208334456 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,20 ****</font>
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: 1 - Obi-Wan Kenobi - obiwan@jedi.org - NORMAL - ACTIVO
+  Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+<font color="brown">--- 14,20 ----</font>
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: bci.user.User@4e50df2e
+  Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-02-01-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Din=A-02-01-M-ok.in -Dout=$LOGS/A-02-01-M-ok.out bci.app.App
+<font color='green'>TEST PASSED!</font>
+<font color='white' style='background: blue;'>---------------------------A-02-02-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-02-02-M-ok.import -Din=A-02-02-M-ok.in -Dout=$LOGS/A-02-02-M-ok.out bci.app.App
+*** expected/A-02-02-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-02-02-M-ok.out	2025-10-07 18:19:49.608338319 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,23 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: 1 - 22 de 22 - Livro - A arte de sobreviver no 36 - 30 - Ficção - Joao Fonseca - 1234567892
+! 2 - 50 de 50 - Livro - Bairro Alto e o Budismo Zen - 25 - Ficção - Zun Tse Fonseca - 1234567891
+! 3 - 50 de 50 - Livro - Dicionário de Programação - 20 - Referência - Odete Fonseca - 1234567890
+! 4 - 5 de 5 - Livro - Analise Matematica sem Mestre - 29 - Técnica e Científica - Carlos Fonseca - 1234567890
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 14,23 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: 1 22 Ficção Joao Fonseca, 1234567892
+! 2 50 Ficção Zun Tse Fonseca, 1234567891
+! 3 50 Referência Odete Fonseca, 1234567890
+! 4 5 Técnica e Científica Carlos Fonseca, 1234567890
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-02-03-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-02-03-M-ok.import -Din=A-02-03-M-ok.in -Dout=$LOGS/A-02-03-M-ok.out bci.app.App
+*** expected/A-02-03-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-02-03-M-ok.out	2025-10-07 18:19:49.818340348 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,22 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: 1 - 10 de 10 - DVD - Era uma vez na Amadora - 20 - Ficção - Fernando Fonseca - 200505550
+! 2 - 10 de 10 - DVD - 48 Horas para o Exame - 12 - Ficção - Orlando Fonseca - 200505553
+! 3 - 5 de 5 - DVD - Lumiar Selvagem - 20 - Ficção - Pedro Fonseca - 200505551
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 14,22 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: 1 10 Ficção Fernando Fonseca 200505550
+! 2 10 Ficção Orlando Fonseca 200505553
+! 3 5 Ficção Pedro Fonseca 200505551
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-04-03-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-04-03-M-ok.import -Din=A-04-03-M-ok.in -Dout=$LOGS/A-04-03-M-ok.out bci.app.App
+*** expected/A-04-03-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-04-03-M-ok.out	2025-10-07 18:19:50.028342377 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,20 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o número da obra: 1 - 22 de 22 - Livro - A arte de sobreviver no 36 - 30 - Ficção - Joao Fonseca - 1234567892
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 14,20 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o número da obra: 1 22 Ficção Joao Fonseca, 1234567892
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font style="background: brown;" color="white">----- ZONE  2  ----</font>
+<font color="brown">*** 22,28 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o número da obra: 6 - 50 de 50 - Livro - Dicionário de Programação - 20 - Referência - Odete Fonseca - 1234567890
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 22,28 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o número da obra: 6 50 Referência Odete Fonseca, 1234567890
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-04-04-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-04-04-M-ok.import -Din=A-04-04-M-ok.in -Dout=$LOGS/A-04-04-M-ok.out bci.app.App
+*** expected/A-04-04-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-04-04-M-ok.out	2025-10-07 18:19:50.228344308 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,20 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o número da obra: 3 - 10 de 10 - DVD - Era uma vez na Amadora - 20 - Ficção - Fernando Fonseca - 200505550
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 14,20 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o número da obra: 3 10 Ficção Fernando Fonseca 200505550
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font style="background: brown;" color="white">----- ZONE  2  ----</font>
+<font color="brown">*** 22,28 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o número da obra: 7 - 5 de 5 - DVD - Lumiar Selvagem - 20 - Ficção - Pedro Fonseca - 200505551
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 22,28 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o número da obra: 7 5 Ficção Pedro Fonseca 200505551
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-05-01-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Din=A-05-01-M-ok.in -Dout=$LOGS/A-05-01-M-ok.out bci.app.App
+<font color='green'>TEST PASSED!</font>
+<font color='white' style='background: blue;'>---------------------------A-05-02-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-05-02-M-ok.import -Din=A-05-02-M-ok.in -Dout=$LOGS/A-05-02-M-ok.out bci.app.App
+*** expected/A-05-02-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-05-02-M-ok.out	2025-10-07 18:19:50.618348077 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,22 ****</font>
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: 1 - Darth Vader - darth@dark.force.com - NORMAL - ACTIVO
+! 2 - Luke Skywalker - last.jedi@universe.com - NORMAL - ACTIVO
+! 3 - Obi-Wan Kenobi - obiwan@jedi.org - NORMAL - ACTIVO
+  Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+<font color="brown">--- 14,22 ----</font>
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: bci.user.User@4e50df2e
+! bci.user.User@1d81eb93
+! bci.user.User@7291c18f
+  Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-06-01-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Din=A-06-01-M-ok.in -Dout=$LOGS/A-06-01-M-ok.out bci.app.App
+<font color='green'>TEST PASSED!</font>
+<font color='white' style='background: blue;'>---------------------------A-06-02-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Din=A-06-02-M-ok.in -Dout=$LOGS/A-06-02-M-ok.out bci.app.App
+<font color='green'>TEST PASSED!</font>
+<font color='white' style='background: blue;'>---------------------------A-07-01-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-07-01-M-ok.import -Din=A-07-01-M-ok.in -Dout=$LOGS/A-07-01-M-ok.out bci.app.App
+<font color='green'>TEST PASSED!</font>
+<font color='white' style='background: blue;'>---------------------------A-07-02-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Din=A-07-02-M-ok.in -Dout=$LOGS/A-07-02-M-ok.out bci.app.App
+*** expected/A-07-02-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-07-02-M-ok.out	2025-10-07 18:19:51.518356770 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 23,35 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: 1 - 22 de 22 - Livro - A arte de sobreviver no 36 - 30 - Ficção - Joao Fonseca - 1234567892
+! 2 - 5 de 5 - Livro - Analise Matematica sem Mestre - 29 - Técnica e Científica - Carlos Fonseca - 1234567890
+! 3 - 10 de 10 - DVD - Era uma vez na Amadora - 20 - Ficção - Fernando Fonseca - 200505550
+! 4 - 10 de 10 - DVD - 48 Horas para o Exame - 12 - Ficção - Orlando Fonseca - 200505553
+! 5 - 50 de 50 - Livro - Bairro Alto e o Budismo Zen - 25 - Ficção - Zun Tse Fonseca - 1234567891
+! 6 - 50 de 50 - Livro - Dicionário de Programação - 20 - Referência - Odete Fonseca - 1234567890
+! 7 - 5 de 5 - DVD - Lumiar Selvagem - 20 - Ficção - Pedro Fonseca - 200505551
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 23,35 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: 1 22 Ficção Joao Fonseca, 1234567892
+! 2 5 Técnica e Científica Carlos Fonseca, 1234567890
+! 3 10 Ficção Fernando Fonseca 200505550
+! 4 10 Ficção Orlando Fonseca 200505553
+! 5 50 Ficção Zun Tse Fonseca, 1234567891
+! 6 50 Referência Odete Fonseca, 1234567890
+! 7 5 Ficção Pedro Fonseca 200505551
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-07-07-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Din=A-07-07-M-ok.in -Dout=$LOGS/A-07-07-M-ok.out bci.app.App
+<font color='green'>TEST PASSED!</font>
+<font color='white' style='background: blue;'>---------------------------A-08-01-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Din=A-08-01-M-ok.in -Dout=$LOGS/A-08-01-M-ok.out bci.app.App
+*** expected/A-08-01-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-08-01-M-ok.out	2025-10-07 18:19:51.918360635 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,28 ****</font>
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: Introduza o nome do utente: Introduza o endereço de correio do utente: Novo utente criado com o número 1.
+! Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+  3 - Listar utentes
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: 1 - aa - bb@cc.com - NORMAL - ACTIVO
+  Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+<font color="brown">--- 14,27 ----</font>
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: Introduza o nome do utente: Introduza o endereço de correio do utente: Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+  3 - Listar utentes
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: bci.user.User@7cc355be
+  Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+<font style="background: brown;" color="white">----- ZONE  2  ----</font>
+<font color="brown">*** 30,45 ****</font>
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: Introduza o nome do utente: Introduza o endereço de correio do utente: Novo utente criado com o número 2.
+! Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+  3 - Listar utentes
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: 1 - aa - bb@cc.com - NORMAL - ACTIVO
+! 2 - bb - cc@dd.com - NORMAL - ACTIVO
+  Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+<font color="brown">--- 29,43 ----</font>
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: Introduza o nome do utente: Introduza o endereço de correio do utente: Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+  3 - Listar utentes
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: bci.user.User@7cc355be
+! bci.user.User@6e8cf4c6
+  Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-08-02-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-08-02-M-ok.import -Din=A-08-02-M-ok.in -Dout=$LOGS/A-08-02-M-ok.out bci.app.App
+*** expected/A-08-02-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-08-02-M-ok.out	2025-10-07 18:19:52.108362470 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,31 ****</font>
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: Introduza o nome do utente: Introduza o endereço de correio do utente: Novo utente criado com o número 4.
+! Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+  3 - Listar utentes
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: 1 - Darth Vader - darth@dark.force.com - NORMAL - ACTIVO
+! 2 - Luke Skywalker - last.jedi@universe.com - NORMAL - ACTIVO
+! 3 - Obi-Wan Kenobi - obiwan@jedi.org - NORMAL - ACTIVO
+! 4 - R2D2 - r2d2@irobots.com - NORMAL - ACTIVO
+  Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+<font color="brown">--- 14,30 ----</font>
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: Introduza o nome do utente: Introduza o endereço de correio do utente: Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+  3 - Listar utentes
+  4 - Mostrar notificações de utente
+  5 - Saldar multa de utente
+  0 - Sair
+! Escolha uma opção: bci.user.User@7cc355be
+! bci.user.User@6e8cf4c6
+! bci.user.User@12edcd21
+! bci.user.User@34c45dca
+  Menu de Gestão de Utentes
+  1 - Registar utente
+  2 - Mostrar utente
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-15-01-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-15-01-M-ok.import -Din=A-15-01-M-ok.in -Dout=$LOGS/A-15-01-M-ok.out bci.app.App
+*** expected/A-15-01-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-15-01-M-ok.out	2025-10-07 18:19:52.318364499 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,20 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: 1 - 2 de 2 - Livro - A arte de sobreviver no 36 - 20 - Ficção - Joao Fonseca - 1234567892
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 14,20 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: 1 2 Ficção Joao Fonseca, 1234567892
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font style="background: brown;" color="white">----- ZONE  2  ----</font>
+<font color="brown">*** 22,28 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: 3 - 10 de 10 - DVD - Era uma vez na Amadora - 20 - Ficção - Fernando Fonseca - 200505550
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 22,28 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: 3 10 Ficção Fernando Fonseca 200505550
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-15-02-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-15-02-M-ok.import -Din=A-15-02-M-ok.in -Dout=$LOGS/A-15-02-M-ok.out bci.app.App
+*** expected/A-15-02-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-15-02-M-ok.out	2025-10-07 18:19:52.508366335 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,20 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: 1 - 2 de 2 - Livro - A arte de sobreviver no 36 - 20 - Ficção - Carlos Fonseca2; Fernando Fonseca2; Joao Fonseca - 1234567892
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 14,20 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: Mostrar todas as obras de um criador: Operação inválida: O criador 'Joao Fonseca' não existe.
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font style="background: brown;" color="white">----- ZONE  2  ----</font>
+<font color="brown">*** 22,28 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: 2 - 3 de 3 - Livro - Analise Matematica sem Mestre - 19 - Técnica e Científica - Carlos Fonseca - 1234567890
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 22,28 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: 2 3 Técnica e Científica Carlos Fonseca, 1234567890
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font style="background: brown;" color="white">----- ZONE  3  ----</font>
+<font color="brown">*** 30,36 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: 1 - 2 de 2 - Livro - A arte de sobreviver no 36 - 20 - Ficção - Carlos Fonseca2; Fernando Fonseca2; Joao Fonseca - 1234567892
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 30,36 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: Mostrar todas as obras de um criador: Operação inválida: O criador 'Fernando Fonseca2' não existe.
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-15-03-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-15-03-M-ok.import -Din=A-15-03-M-ok.in -Dout=$LOGS/A-15-03-M-ok.out bci.app.App
+*** expected/A-15-03-M-ok.out	2025-10-07 18:13:28.304654811 +0100
+--- logs/ei/A-15-03-M-ok.out	2025-10-07 18:19:52.708368267 +0100
+<font style="background: brown;" color="white">----- ZONE  1  ----</font>
+<font color="brown">*** 14,23 ****</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: 1 - 3 de 3 - Livro - Analise Matematica sem Mestre - 19 - Técnica e Científica - Carlos Fonseca - 1234567890
+! 2 - 50 de 50 - DVD - Bairro Alto e o Budismo Zen - 25 - Ficção - Carlos Fonseca - 1234567891
+! 3 - 10 de 10 - DVD - Era uma vez na Amadora - 20 - Ficção - Carlos Fonseca - 200505550
+! 4 - 2 de 2 - Livro - Sobreviver no 36 - 20 - Ficção - Carlos Fonseca - 1234567892
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color="brown">--- 14,23 ----</font>
+  4 - Mostrar todas as obras de um criador
+  5 - Alterar inventário de uma obra
+  0 - Sair
+! Escolha uma opção: Introduza o identificador do criador: 1 3 Técnica e Científica Carlos Fonseca, 1234567890
+! 2 50 Ficção Carlos Fonseca 1234567891
+! 3 10 Ficção Carlos Fonseca 200505550
+! 4 2 Ficção Carlos Fonseca, 1234567892
+  Menu de obras
+  1 - Mostrar obra
+  2 - Mostrar todas as obras
+<font color='brown'>output differs from expected</font>
+<font color='white' style='background: blue;'>---------------------------A-15-06-M-ok.in---------------------------</font>
+prlimit: failed to parse AS limit
+CLASSPATH=$JAVADIR/po-uilib.jar:$PROJDIR/bci-core/bci-core.jar:$PROJDIR/bci-app/bci-app.jar
+Running: java -Dimport=A-15-06-M-ok.import -Din=A-15-06-M-ok.in -Dout=$LOGS/A-15-06-M-ok.out bci.app.App
+<font color='green'>TEST PASSED!</font>
+fgrep: warning: fgrep is obsolescent; using grep -F
+</pre>

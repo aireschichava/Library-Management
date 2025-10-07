@@ -1,0 +1,45 @@
+fgrep: warning: fgrep is obsolescent; using grep -F
+egrep: warning: egrep is obsolescent; using grep -E
+fgrep: warning: fgrep is obsolescent; using grep -F
+fgrep: warning: fgrep is obsolescent; using grep -F
+Checking core structure...
+compile_project:58: no matches found: *.in
+rm -f bci-core.jar `find . -name \*.class`
+(cd src; javac -encoding UTF-8 `find . -name \*.java`)
+(cd src; jar cf ../bci-core.jar `find . -name \*.class -o -name \*.java`)
+Checking manager interface structure...
+rm -f bci-app.jar `find . -name \*.class`
+(cd src; javac -cp /usr/share/java/po-uilib.jar:../../bci-core/bci-core.jar -encoding UTF-8 `find . -name \*.java`)
+./bci/app/main/DoOpenFile.java:20: error: cannot find symbol
+    protected final void execute() throws FileOpenException {
+                                          ^
+  symbol:   class FileOpenException
+  location: class DoOpenFile
+./bci/app/work/DoChangeWorkInventory.java:21: error: cannot find symbol
+        int workId = Integer.parseInt(_display.inputLine("ID da obra?"));
+                                              ^
+  symbol:   method inputLine(String)
+  location: variable _display of type Display
+./bci/app/work/DoChangeWorkInventory.java:22: error: cannot find symbol
+        int newCopies = Integer.parseInt(_display.inputLine("Novo número de exemplares?"));
+                                                 ^
+  symbol:   method inputLine(String)
+  location: variable _display of type Display
+./bci/app/work/DoChangeWorkInventory.java:26: error: cannot find symbol
+        } catch (bci.exceptions.NoSuchWorkException e) {
+                               ^
+  symbol:   class NoSuchWorkException
+  location: package bci.exceptions
+./bci/app/main/DoOpenFile.java:21: error: cannot find symbol
+        String filename = _display.inputLine("Nome do ficheiro?");
+                                  ^
+  symbol:   method inputLine(String)
+  location: variable _display of type Display
+./bci/app/main/DoOpenFile.java:25: error: cannot find symbol
+            throw new FileOpenException("Erro ao abrir o ficheiro: " + filename, e);
+                      ^
+  symbol:   class FileOpenException
+  location: class DoOpenFile
+6 errors
+make: *** [Makefile:6: all] Error 1
+

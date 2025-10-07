@@ -1,0 +1,17 @@
+fgrep: warning: fgrep is obsolescent; using grep -F
+fgrep: warning: fgrep is obsolescent; using grep -F
+egrep: warning: egrep is obsolescent; using grep -E
+fgrep: warning: fgrep is obsolescent; using grep -F
+Checking core structure...
+compile_project:58: no matches found: *.in
+rm -f bci-core.jar `find . -name \*.class`
+(cd src; javac -encoding UTF-8 `find . -name \*.java`)
+./bci/Obras.java:20: error: invalid method declaration; return type required
+    public obras(String title, int num_copies, int price, Sring category){
+           ^
+./bci/Dvd.java:13: error: ';' expected
+        super(title, num_copies, price, category)
+                                                 ^
+2 errors
+make: *** [Makefile:4: all] Error 1
+

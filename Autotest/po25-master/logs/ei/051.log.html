@@ -1,0 +1,44 @@
+fgrep: warning: fgrep is obsolescent; using grep -F
+egrep: warning: egrep is obsolescent; using grep -E
+fgrep: warning: fgrep is obsolescent; using grep -F
+fgrep: warning: fgrep is obsolescent; using grep -F
+Checking core structure...
+compile_project:58: no matches found: *.in
+rm -f bci-core.jar `find . -name \*.class`
+(cd src; javac -encoding UTF-8 `find . -name \*.java`)
+(cd src; jar cf ../bci-core.jar `find . -name \*.class -o -name \*.java`)
+Checking manager interface structure...
+rm -f bci-app.jar `find . -name \*.class`
+(cd src; javac -cp /usr/share/java/po-uilib.jar:../../bci-core/bci-core.jar -encoding UTF-8 `find . -name \*.java`)
+./bci/app/work/DoDisplayWorks.java:26: error: cannot find symbol
+        List&lt;Work&gt; works = _receiver.DoDisplayWorks();
+                                    ^
+  symbol:   method DoDisplayWorks()
+  location: variable _receiver of type Receiver
+  where Receiver is a type-variable:
+    Receiver extends Object declared in class Command
+./bci/app/main/DoOpenFile.java:22: error: cannot find symbol
+            if (_receiver.changed() && Form.confirm(Prompt.saveBeforeExit())) {
+                         ^
+  symbol:   method changed()
+  location: variable _receiver of type Receiver
+  where Receiver is a type-variable:
+    Receiver extends Object declared in class Command
+./bci/app/user/DoShowUsers.java:20: error: cannot find symbol
+        List&lt;User&gt; users = _receiver.doShowUsers();
+        ^
+  symbol:   class List
+  location: class DoShowUsers
+./bci/app/user/DoShowUsers.java:20: error: cannot find symbol
+        List&lt;User&gt; users = _receiver.doShowUsers();
+             ^
+  symbol:   class User
+  location: class DoShowUsers
+./bci/app/user/DoShowUsers.java:26: error: cannot find symbol
+        for (User user : users) {
+             ^
+  symbol:   class User
+  location: class DoShowUsers
+5 errors
+make: *** [Makefile:6: all] Error 1
+
