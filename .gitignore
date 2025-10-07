@@ -5,8 +5,17 @@
 *.dat
 /bin/
 README2.md
-Marmaid-PO-uilib.txt
+*.txt
 .DS_Store
 .classpath
 .project
 .settings/
+VeterinarianHotel-Emma-main
+po24-hva
+Vet2024
+Marmaid-PO-uilib.txt
+ProjectContext
+PersonalTesteAires.java
+
+# Ignore the local Autotest harness entirely (do not commit tests/logs/clones)
+Autotest/
