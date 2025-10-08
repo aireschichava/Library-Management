@@ -1,6 +1,7 @@
 package bci;
 
 import bci.exceptions.*;
+import bci.user.User;
 import bci.works.Creator;
 import bci.works.Work;
 import java.io.*;
@@ -146,6 +147,22 @@ public class LibraryManager {
     /** Advances the current logical date by a positive number of days. */
     public void advanceDate(int days) {
         library.advanceDate(days);
+    }
+
+    // User management
+    public User registerUser(String name, String email) {
+        int id = library.getNextUserId();
+        User user = new User(id, name, email);
+        library.addUser(user);
+        return user;
+    }
+
+    public String showUser(int id) {
+        return library.showUser(id);
+    }
+
+    public List<User> getAllUsers() {
+        return library.getAllUsers();
     }
 
 }

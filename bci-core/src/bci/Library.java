@@ -4,6 +4,7 @@ import bci.exceptions.*;
 import bci.search.DefaultSearch;
 import bci.search.SearchByCreator;
 import bci.search.SearchByPrice;
+import bci.user.User;
 import bci.works.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,31 +16,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-
-
 /** Class that represents the library as a whole. */
 class Library implements Serializable {
 
     @java.io.Serial
     private static final long serialVersionUID = 202507171003L;
 
-    
     private Map<String, Creator> creatorMap = new HashMap<>();
     private Map<Integer, Work> workMap = new HashMap<>();
-    // Minimal user registry for USER:name:email lines (name -> email)
-    private Map<String, String> userMap = new HashMap<>();
+    // User registry (id -> User)
+    private Map<Integer, User> users = new HashMap<>();
     // Auto-increment id for imported works (since text format has no id)
     private int nextWorkId = 1;
-    // Current logical date of the library
+    // Auto-increment id for users
+    private int nextUserId = 1;
+    // Current logical date of the library (start at 0 to match main app conventions)
     private int currentDate = 0;
-    
 
     //FIXME maybe define attributes
     //FIXME maybe implement constructor
     //FIXME maybe implement methods
-
+    
     /**
      * Read the text input file at the beginning of the program and populates the
      * instances of the various possible types (books, DVDs, users).
@@ -81,11 +78,11 @@ class Library implements Serializable {
                     break;
                 case "USER":
                     // USER:name:email
-                    //registerUser(fields);
+                    registerUser(fields);
                     break;
                 default:
                     throw new UnrecognizedEntryException(tag);
-            }
+            };
         }
 
         //implementar book already exist
@@ -138,21 +135,22 @@ class Library implements Serializable {
             }
         }
 
-        // // Minimal USER handler so USER lines in the initial file do not fail the import.
-        // private void registerUser(String... fields) throws UnrecognizedEntryException {
-        //     try {
-        //         if (fields.length < 3) {
-        //             throw new ArrayIndexOutOfBoundsException("USER requires name and email");
-        //         }
-        //         String name = fields[1].trim();
-        //         String email = fields[2].trim();
-        //         if (!name.isEmpty()) {
-        //             userMap.put(name, email);
-        //         }
-        //     } catch (ArrayIndexOutOfBoundsException e) {
-        //         throw new UnrecognizedEntryException("USER", e);
-        //     }
-        // }
+        /** Handle USER lines: USER:name:email */
+        private void registerUser(String... fields) throws UnrecognizedEntryException {
+            try {
+                if (fields.length < 3) {
+                    throw new ArrayIndexOutOfBoundsException("USER requires name and email");
+                }
+                String name = fields[1].trim();
+                String email = fields[2].trim();
+                if (!name.isEmpty()) {
+                    User user = new User(getNextUserId(), name, email);
+                    addUser(user);
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new UnrecognizedEntryException("USER", e);
+            }
+        }
 
 
             //this is test cod
@@ -330,7 +328,32 @@ class Library implements Serializable {
     public void advanceDate(int days) {
         if (days > 0) {
             currentDate += days;
+            updateUserStatus();
         }
+    }
+
+    /** Hook to update user statuses based on date changes (no-op for now). */
+    private void updateUserStatus() {
+        // Future: iterate users and adjust suspension, etc.
+    }
+
+    /** User management API */
+    public int getNextUserId() { return nextUserId++; }
+
+    public void addUser(User user) { if (user != null) users.put(user.getId(), user); }
+
+    public User getUser(int id) { return users.get(id); }
+
+    public String showUser(int id) {
+        User user = users.get(id);
+        return user == null ? null : user.toDisplayString();
+    }
+
+    public List<User> getAllUsers() {
+        List<User> result = new ArrayList<>(users.values());
+        result.sort(Comparator.comparing(User::getName, String.CASE_INSENSITIVE_ORDER)
+                              .thenComparingInt(User::getId));
+        return result;
     }
 
 
