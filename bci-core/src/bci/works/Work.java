@@ -5,83 +5,113 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Class that represents a work (book, DVD, etc.) in the library.
+ * Abstract class that represents a work (book, DVD, etc.) in the library.
  */
 public abstract class Work implements Serializable {
-		@java.io.Serial
-		private static final long serialVersionUID = 202507171003L;
-		
-		private int id;
-		private String title;
-		private List<Creator> creators;
-		private int totalCopies;
-		private int availableCopies;
-		private Category category;
-		private int price;
+    /** Serial version UID for serialization. */
+    @java.io.Serial
+    private static final long serialVersionUID = 202507171003L;
+    
+    /** Unique identifier for the work. */
+    private int id;
+    /** Title of the work. */
+    private String title;
+    /** List of creators (authors, directors, etc.) associated with the work. */
+    private List<Creator> creators;
+    /** Total number of copies of the work. */
+    private int totalCopies;
+    /** Number of available copies for loan. */
+    private int availableCopies;
+    /** Category of the work. */
+    private Category category;
+    /** Price of the work. */
+    private int price;
 
-		public Work(int id, String title, Category category, int totalCopies, int price) {
-			this.id = id;
-			this.title = title;
-			this.category = category;
-			this.totalCopies = totalCopies;
-			this.availableCopies = totalCopies;
-			this.price = price;
-			this.creators = new ArrayList<>();
-		}
+    /**
+     * Constructs a new Work.
+     * @param id unique identifier
+     * @param title title of the work
+     * @param category category of the work
+     * @param totalCopies total number of copies
+     * @param price price of the work
+     */
+    public Work(int id, String title, Category category, int totalCopies, int price) {
+        this.id = id;
+        this.title = title;
+        this.category = category;
+        this.totalCopies = totalCopies;
+        this.availableCopies = totalCopies;
+        this.price = price;
+        this.creators = new ArrayList<>();
+    }
 
-		public int getId() {
-			return id;
-		}
+    /** @return the unique identifier of the work */
+    public int getId() {
+        return id;
+    }
 
-		public String getTitle() {
-			return title;
-		}
+    /** @return the title of the work */
+    public String getTitle() {
+        return title;
+    }
 
-		public List<Creator> getCreators() {
-			return creators;
-		}
+    /** @return the list of creators associated with the work */
+    public List<Creator> getCreators() {
+        return creators;
+    }
 
-		public int getTotalCopies() {
-			return totalCopies;
-		}
+    /** @return the total number of copies of the work */
+    public int getTotalCopies() {
+        return totalCopies;
+    }
 
-		public int getAvailableCopies() {
-			return availableCopies;
-		}
+    /** @return the number of available copies for loan */
+    public int getAvailableCopies() {
+        return availableCopies;
+    }
 
-		public Category getCategory() {
-			return category;
-		}
-		public int getPrice() {
-			return price;
-		}
+    /** @return the category of the work */
+    public Category getCategory() {
+        return category;
+    }
+    /** @return the price of the work */
+    public int getPrice() {
+        return price;
+    }
 
-		public boolean isAvailable() {
-			return availableCopies > 0;
-		}
+    /**
+     * Checks if the work is available for loan.
+     * @return true if available, false otherwise
+     */
+    public boolean isAvailable() {
+        return availableCopies > 0;
+    }
 
-		public abstract void addCreator(Creator creator);
+    /**
+     * Adds a creator to the work.
+     * @param creator the creator to add
+     */
+    public abstract void addCreator(Creator creator);
 
+    /**
+     * Updates the inventory for this work item.
+     * @param amount the amount to update the inventory by (can be negative)
+     * @return true if the update was successful, false otherwise
+     */
+    public boolean updateInventory(int amount) {
+        if (availableCopies + amount >= 0 && totalCopies + amount >= 0) {
+            availableCopies += amount;
+            totalCopies += amount;
+            return true;
+        }
+        return false;
+    }
 
-
-
-		/** Updates the inventory for this work item.
-		 *
-		 * @param amount the amount to update the inventory by (can be negative)
-		 * @return true if the update was successful, false otherwise
-		 */
-
-		public boolean updateInventory(int amount) {
-			if (availableCopies + amount >= 0 && totalCopies + amount >= 0) {
-				availableCopies += amount;
-				totalCopies += amount;
-				return true;
-			}
-			return false;
-		}
-
-
-		public abstract boolean search(String term);
-
+    /**
+     * Searches for a term in the work's data.
+     * @param term the search term
+     * @return true if the term matches, false otherwise
+     */
+    public abstract boolean search(String term);
 
 }
