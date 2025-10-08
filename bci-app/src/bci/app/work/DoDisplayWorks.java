@@ -2,7 +2,6 @@ package bci.app.work;
 
 import bci.LibraryManager;
 import pt.tecnico.uilib.menus.Command;
-
 //FIXME maybe import classes
 
 /**
@@ -17,6 +16,6 @@ class DoDisplayWorks extends Command<LibraryManager> {
 
     @Override
     protected final void execute() {
-        _display.popup(_receiver.showAllWorks());
+        //FIXME implement command
     }
 }

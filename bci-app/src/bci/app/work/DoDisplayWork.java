@@ -1,34 +1,23 @@
 package bci.app.work;
 
 import bci.LibraryManager;
-import bci.app.exceptions.NoSuchWorkException;
-import bci.works.Work;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+//FIXME maybe import classes
 
-
+/**
+ * 4.3.1. Display work.
+ */
 class DoDisplayWork extends Command<LibraryManager> {
 
     DoDisplayWork(LibraryManager receiver) {
         super(Label.SHOW_WORK, receiver);
-
-         addIntegerField("workId", Prompt.workId());
-      
+        //FIXME maybe define fields
     }
 
     @Override
-    protected final void execute() throws CommandException 
-    {
-        int id = integerField("workId");
-        Work work=_receiver.getWork(id);
-        if (work == null) 
-		{
-			throw new NoSuchWorkException(id);
-		}
-        
-        _display.popup(work.toString());
-            
-
+    protected final void execute() throws CommandException {
+        //FIXME implement command
     }
 
 }

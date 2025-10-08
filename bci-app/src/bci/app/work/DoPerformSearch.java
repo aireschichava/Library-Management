@@ -9,19 +9,14 @@ import pt.tecnico.uilib.menus.Command;
  */
 class DoPerformSearch extends Command<LibraryManager> {
 
-    DoPerformSearch(LibraryManager receiver) 
-    {
+    DoPerformSearch(LibraryManager receiver) {
         super(Label.PERFORM_SEARCH, receiver);
-        addStringField("term", Prompt.searchTerm());
         //FIXME maybe define fields
     }
 
     @Override
-    protected final void execute()
-    {
+    protected final void execute() {
         //FIXME implement command
-         String term = stringField("term");
-         _display.popup(_receiver.searchWorks(term));
     }
 
 }
