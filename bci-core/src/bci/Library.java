@@ -10,20 +10,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
-
-=======
-import java.util.List;
-import bci.user.*;
-//FIXME maybe import classes
->>>>>>> 90dee6fa8b40c8f729c236159352f290a4893f73
 
 /** Class that represents the library as a whole. */
 class Library implements Serializable {
@@ -31,8 +21,6 @@ class Library implements Serializable {
     @java.io.Serial
     private static final long serialVersionUID = 202507171003L;
 
-<<<<<<< HEAD
-    
     private Map<String, Creator> creatorMap = new HashMap<>();
     private Map<Integer, Work> workMap = new HashMap<>();
     // Minimal user registry for USER:name:email lines (name -> email)
@@ -41,47 +29,10 @@ class Library implements Serializable {
     private int nextWorkId = 1;
     // Current logical date of the library
     private int currentDate = 0;
-    
-=======
-    private int _currentDate = 1;
-
-    private List <User> _users = new ArrayList<>();
->>>>>>> 90dee6fa8b40c8f729c236159352f290a4893f73
 
     //FIXME maybe define attributes
     //FIXME maybe implement constructor
     //FIXME maybe implement methods
-
-    public int getCurrentDate() {
-        return _currentDate;
-    }
-
-    public void advanceDate(int days) {
-        _currentDate += days;
-        updateUserStatus();
-    }
-
-    private void updateUserStatus() {
-        //FIXME implement method
-    }
-
-    public void addUser(User user) {
-        _users.add(user);
-    }
-
-    public User getUser(int id) {
-        for (User user : _users) {
-            if (user.getId() == id) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public String showUser(int id) {
-        User user = getUser(id);  // Usar método existente
-        return user.toDisplayString();
-    }
     
     /**
      * Read the text input file at the beginning of the program and populates the
