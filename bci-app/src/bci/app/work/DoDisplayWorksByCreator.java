@@ -35,13 +35,18 @@ class DoDisplayWorksByCreator extends Command<LibraryManager>
         
         // Call the manager to get works by creator
         List<Work> works = _receiver.searchWorksByCreator(creatorId);
-        if (works != null && !works.isEmpty()) 
-        {
-            for (Work work : works) 
-            {
-                _display.popup(work.toString());
-             }
-         } 
+        if (works != null && !works.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < works.size(); i++) {
+                Work w = works.get(i);
+                if (w == null) continue;
+                sb.append(w.toString());
+                if (i < works.size() - 1) sb.append("\n");
+            }
+            if (sb.length() > 0) {
+                _display.popup(sb.toString());
+            }
+        }
         //to implement exception UnknownCreatorException
     }
 
