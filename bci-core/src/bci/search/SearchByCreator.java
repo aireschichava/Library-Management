@@ -25,9 +25,11 @@ public final class SearchByCreator implements SearchStrategy {
     @Override
     public boolean search(String term) {
         if (term == null || work == null) return false;
-        String lowerTerm = term.toLowerCase();
+        String target = term.trim();
+        if (target.isEmpty()) return false;
         for (Creator creator : work.getCreators()) {
-            if (creator.getName().toLowerCase().contains(lowerTerm)) {
+            String name = creator.getName();
+            if (name != null && name.equalsIgnoreCase(target)) {
                 return true;
             }
         }
