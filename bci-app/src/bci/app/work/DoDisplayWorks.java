@@ -17,6 +17,16 @@ class DoDisplayWorks extends Command<LibraryManager> {
 
     @Override
     protected final void execute() {
-        _display.popup(_receiver.showAllWorks());
+        java.util.List<bci.works.Work> works = _receiver.showAllWorks();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < works.size(); i++) {
+            bci.works.Work w = works.get(i);
+            if (w == null) continue;
+            sb.append(w.toString());
+            if (i < works.size() - 1) sb.append("\n");
+        }
+        if (sb.length() > 0) {
+            _display.popup(sb.toString());
+        }
     }
 }

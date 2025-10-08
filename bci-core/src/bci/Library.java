@@ -30,8 +30,8 @@ class Library implements Serializable {
     private int nextWorkId = 1;
     // Auto-increment id for users
     private int nextUserId = 1;
-    // Current logical date of the library (start at 0 to match main app conventions)
-    private int currentDate = 0;
+    // Current logical date of the library (start at 1 to match tests)
+    private int currentDate = 1;
 
     //FIXME maybe define attributes
     //FIXME maybe implement constructor

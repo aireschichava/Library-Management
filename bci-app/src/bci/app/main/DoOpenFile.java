@@ -2,7 +2,7 @@ package bci.app.main;
 
 import bci.LibraryManager;
 import bci.app.exceptions.FileOpenFailedException;
-import bci.exceptions.UnavailableFileException;
+import bci.exceptions.ImportFileException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 //FIXME maybe import classes
@@ -21,8 +21,8 @@ class DoOpenFile extends Command<LibraryManager> {
     protected final void execute() throws CommandException {
         String filename = stringField("filename");
         try {
-            _receiver.load(filename);
-        } catch (UnavailableFileException e) {
+            _receiver.importFile(filename);
+        } catch (ImportFileException e) {
             throw new FileOpenFailedException(e);
         }
     }
