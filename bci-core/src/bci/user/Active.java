@@ -1,6 +1,8 @@
 package bci.user;
 
-public class Active extends Status {
+import java.io.Serializable;
+
+public class Active extends Status implements Serializable {
     @Override
     public String getName() {
         return "ACTIVO";

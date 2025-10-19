@@ -13,7 +13,7 @@ class DoShowUser extends Command<LibraryManager> {
 
     DoShowUser(LibraryManager receiver) {
         super(Label.SHOW_USER, receiver);
-        //FIXME maybe define fields
+      
     }
 
     @Override

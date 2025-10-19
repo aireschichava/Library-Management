@@ -20,8 +20,11 @@ public class LibraryManager {
     /** The filename associated with the current library state (for save/load). */
     private String _filename = null;
 
-    //FIXME maybe define constructors
-
+    /**
+     * Saves the current library state to the associated file.
+     * @throws MissingFileAssociationException if no file is associated with the current state
+     * @throws IOException if some problem occurs during the process
+     */
     public void save() throws MissingFileAssociationException, IOException {
         if (_filename == null || _filename.isEmpty()) {
             throw new MissingFileAssociationException();
@@ -37,15 +40,21 @@ public class LibraryManager {
         save();
     }
 
+
+
+    /**
+     * Loads library state from a file, replacing the current library.
+     * @param filename name of the file
+     * @throws UnavailableFileException if the file is not available or some other problem occurs
+     *         during the process.
+     */
+    
     public void load(String filename) throws UnavailableFileException {
         try (ObjectInputStream ois = new ObjectInputStream(
                 new BufferedInputStream(new FileInputStream(filename)))) {
-            Object obj = ois.readObject();
-            if (!(obj instanceof Library loaded)) {
-                throw new UnavailableFileException(filename);
-            }
-            this.library = loaded;
-            this._filename = filename;
+
+            library = (Library) ois.readObject();
+            _filename = filename;
         } catch (IOException | ClassNotFoundException e) {
             throw new UnavailableFileException(filename);
         }
@@ -76,7 +85,6 @@ public class LibraryManager {
      * 
      */
   
-     
     public void addWork(Work work) {
         library.addWork(work);
     }
@@ -137,8 +145,6 @@ public class LibraryManager {
     }
 
 
-    //FIXME implement other methods
-
     /** Returns the current logical date. */
     public int getCurrentDate() {
         return library.getCurrentDate();
@@ -149,7 +155,12 @@ public class LibraryManager {
         library.advanceDate(days);
     }
 
-    // User management
+    /**
+     * Registers a new user, given the name and email.
+     * @param name the user's name
+     * @param email the user's email
+     * @return the created user, or null if registration failed
+     */
     public User registerUser(String name, String email) {
         int id = library.getNextUserId();
         User user = new User(id, name, email);

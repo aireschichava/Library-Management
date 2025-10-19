@@ -6,7 +6,7 @@ import bci.user.User;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 import pt.tecnico.uilib.forms.Form;
-//FIXME maybe import classes
+
 
 /**
  * 4.2.1. Register new user.

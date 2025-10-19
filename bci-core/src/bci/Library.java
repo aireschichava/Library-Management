@@ -137,10 +137,10 @@ class Library implements Serializable {
                 Category category = Category.valueOf(fields[4].toUpperCase());
                 String igac = fields[5];
                 int total = Integer.parseInt(fields[6]);
-                Creator director = getOrCreateCreator(directorName);
                 int id = nextWorkId++;
-                DVD dvd = new DVD(id, title, category, total, igac, director, price);
+                DVD dvd = new DVD(id, title, category, total, igac, price);
                 addWork(dvd);
+                dvd.addCreator(getOrCreateCreator(directorName));
             } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
                 throw new UnrecognizedEntryException("DVD", e);
             }
@@ -168,12 +168,7 @@ class Library implements Serializable {
         }
 
 
-            //this is test cod
-
-
-
-    
-
+       
 /** Returns all works in the library, sorted by their ID.
      * @return list of all works
      */
@@ -185,7 +180,6 @@ class Library implements Serializable {
     }
 
    
-    
 
     /**
      * Returns the creator with the given name, creating it if it doesn't exist.
@@ -237,11 +231,11 @@ class Library implements Serializable {
    * @param id the unique ID of the work
    * @return the Work object, or null if not found
    */
-  public Work getWork(int id) /**throws UnknownWorkException*/ 
+  public Work getWork(int id)
   {
       Work work = workMap.get(id);
       if (work == null) {
-          //throw new UnknownWorkException(id);
+          
       }
       return work;
   }
@@ -327,10 +321,6 @@ class Library implements Serializable {
             return result;
     }
 
-    
-    
-    
-    
     /**
      * Updates the inventory for a specific work item.
      *
@@ -416,9 +406,6 @@ class Library implements Serializable {
                               .thenComparingInt(User::getId));
         return result;
     }
-
-
-
 
 
 }

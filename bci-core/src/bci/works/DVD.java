@@ -19,13 +19,11 @@ public class DVD extends Work {
      * @param category category of the DVD
      * @param totalCopies total number of copies
      * @param igacNumber IGAC number
-     * @param director director of the DVD
      * @param price price of the DVD
      */
-    public DVD(int id, String title, Category category, int totalCopies, String igacNumber, Creator director, int price) {
+    public DVD(int id, String title, Category category, int totalCopies, String igacNumber, int price) {
         super(id, title, category, totalCopies, price);
         this.igacNumber = igacNumber;
-        linkDirector(director); 
     }
 
     /**
@@ -41,7 +39,7 @@ public class DVD extends Work {
      * @return the director
      */
     public Creator getDirector() {
-        return director;
+        return getCreators().isEmpty() ? null : getCreators().get(0);
     }
 
     /**
@@ -64,22 +62,14 @@ public class DVD extends Work {
      */
 	@Override
 	public void addCreator(Creator creator) {
-        linkDirector(creator);
+        if (creator == null) return;
+
+        getCreators().clear(); // DVDs have only one director(so clear any existing)
+        getCreators().add(creator);
+        creator.addWork(this);
+  
 		
 	}
-
-    /**
-     * Links a director to this DVD and ensures bidirectional association.
-     * @param creator the director to link
-     */
-    private void linkDirector(Creator creator) {
-        if (creator == null) return;
-        this.director = creator;
-        if (!getCreators().contains(creator)) {
-            getCreators().add(creator);
-        }
-        creator.addWork(this);
-    }
 
     /**
      * Returns a string representation of the DVD, including director.

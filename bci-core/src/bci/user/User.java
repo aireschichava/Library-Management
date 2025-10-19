@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Objects;
+import bci.works.Loan;
+import java.util.List;
 
 /**
  * Class representing a user of the library system.
@@ -27,6 +29,9 @@ public class User implements Serializable {
     private final Deque<Boolean> lastReturns;
     /** Current fine amount for the user. */
     private int fine;
+
+    /** List of active loans for the user. */
+    private List<Loan> loans;
 
     /** Number of consecutive on-time returns. */
     private int consecOnTime = 0;
@@ -96,6 +101,20 @@ public class User implements Serializable {
     public int getFine() {
         return this.fine;
     }
+    
+    
+    /** Returns the list of active loans.
+	 * @return list of loans
+	 */	public List<Loan> getLoans() {
+		 
+		 return this.loans;
+	 }
+	 
+	 /** Returns the number of active loans.*/
+	 public int getNumberOfLoans() {
+		 return this.loans.size();
+	 }
+    
     /**
      * Sets the user's fine amount.
      * @param fine the fine amount to set
@@ -129,12 +148,24 @@ public class User implements Serializable {
     public void setSuspended() {
         this.status = new Suspended();
     }
+    
+    /**Sets the requested loans list.
+	 * @param loans list of loans
+	 */
+	public void setLoans(Loan loan) {
+		this.loans.add(loan);
+	}
+	
+	/**Returns the list of active loans.
+	 */
+    
+    
     /**
      * Checks if the user is suspended.
      * @return true if suspended, false otherwise
      */
     public boolean isSuspended() {
-        return this.status instanceof Suspended;
+        return this.status.canBorrow();
     }
 
     /**

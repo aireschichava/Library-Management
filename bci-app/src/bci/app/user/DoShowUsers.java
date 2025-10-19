@@ -17,17 +17,9 @@ class DoShowUsers extends Command<LibraryManager> {
 
     @Override
     protected final void execute() {
-        java.util.List<User> users = _receiver.getAllUsers();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < users.size(); i++) {
-            User u = users.get(i);
-            if (u == null) continue;
-            sb.append(u.toDisplayString());
-            if (i < users.size() - 1) sb.append("\n");
-        }
-        if (sb.length() > 0) {
-            _display.popup(sb.toString());
-        }
+     
+            _display.popup(_receiver.getAllUsers());
+        
     }
 
 }
