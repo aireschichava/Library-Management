@@ -22,7 +22,6 @@ public class SuspendedUserRule implements RequestRule {
 
 	@Override
 	public int getId() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 }

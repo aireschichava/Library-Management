@@ -176,4 +176,14 @@ public class LibraryManager {
         return library.getAllUsers();
     }
 
+    //clears the fine of a user
+    public boolean payFine(User user, int amount) {
+        return library.clearFine(user);
+    }
+    
+    
+    public User getUser(int id) {
+		return library.getUser(id);
+	}
+
 }

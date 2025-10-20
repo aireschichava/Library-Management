@@ -1,5 +1,6 @@
 package bci.works;
 
+import bci.notifications.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * Abstract class that represents a work (book, DVD, etc.) in the library.
  */
-public abstract class Work implements Serializable {
+public abstract class Work implements Serializable, Observable {
     /** Serial version UID for serialization. */
     @java.io.Serial
     private static final long serialVersionUID = 202507171003L;
@@ -26,6 +27,8 @@ public abstract class Work implements Serializable {
     private Category category;
     /** Price of the work. */
     private int price;
+    /** List of observers for the work. */
+    private List <Observer> observers=new ArrayList<>();
 
     /**
      * Constructs a new Work.
@@ -44,6 +47,27 @@ public abstract class Work implements Serializable {
         this.price = price;
         this.creators = new ArrayList<>();
     }
+
+
+       /**
+     * Searches for a term in the work's data.
+     * @param term the search term
+     * @return true if the term matches, false otherwise
+     */
+    public abstract boolean search(String term);
+
+    /**
+     * Returns the type name of the work (e.g., "Livro", "DVD").
+     * @return the type name
+     */
+        public abstract String getWorkName();
+
+        /**
+         * Returns the additional info for the work (authors+ISBN for Book, director+IGAC for DVD).
+         * @return the additional info string
+         */
+        public abstract String getAdditionalInfo();
+
 
     /** @return the unique identifier of the work */
     public int getId() {
@@ -78,7 +102,8 @@ public abstract class Work implements Serializable {
     public int getPrice() {
         return price;
     }
-
+    
+    
     /**
      * Checks if the work is available for loan.
      * @return true if available, false otherwise
@@ -99,6 +124,10 @@ public abstract class Work implements Serializable {
      * @return true if the update was successful, false otherwise
      */
     public boolean updateInventory(int amount) {
+
+    	if (amount>0 && availableCopies==0) {
+    		notifyObservers(message());
+    	}
         if (availableCopies + amount >= 0 && totalCopies + amount >= 0) {
             availableCopies += amount;
             totalCopies += amount;
@@ -108,10 +137,45 @@ public abstract class Work implements Serializable {
     }
 
     /**
-     * Searches for a term in the work's data.
-     * @param term the search term
-     * @return true if the term matches, false otherwise
+     * Returns a formatted message string for the work.
+     * @return the message string
      */
-    public abstract boolean search(String term);
+    public String message() {
+        return "DISPONIBILIDADE:" + getId() + " - " + getAvailableCopies() + " de " + getTotalCopies() + " - " +
+               getWorkName() + " - " + getTitle() + " - " + getPrice() + " - " + getCategory() +
+               " - " + getAdditionalInfo();
+    }
+
+    /**
+     * Adds an observer to the work.
+     * @param observer the observer to add
+     */
+    @Override
+	public void addObserver(Observer observer) {
+			observers.add(observer);
+		
+	}
+    /**
+     * Removes an observer from the work.
+     * @param observer the observer to remove
+     */
+	@Override
+	public void removeObserver(Observer observer) {
+		this.observers.remove(observer);
+		
+	}
+    /**
+     * Notifies all observers with a message.
+     * @param message the message to send to observers
+     */
+	@Override
+	public void notifyObservers(String message) {
+		for(Observer observer: observers) {
+			observer.update(message);
+		}
+		
+	}
+
+ 
 
 }

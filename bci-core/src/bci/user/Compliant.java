@@ -1,7 +1,9 @@
 package bci.user;
 
 public class Compliant extends Behavior {
-    @Override   
+    private static final long serialVersionUID = 1L;
+
+	@Override   
     public String getName() {
         return "CUMPRIDOR";
     }
