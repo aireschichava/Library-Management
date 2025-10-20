@@ -463,7 +463,13 @@ class Library implements Serializable {
         }
     }
 
-
+    /**
+     * Retrieves the notifications for a user by their ID.
+     * @param id the user ID
+     * @return list of notifications for the user
+     * we first retrieve the User object from the usersMap using the provided ID.
+     * Then, we call the getNotifications method on the User object to obtain their notifications.
+     */
     public List<String> getUserNotifications(int id) {
     
         return usersMap.get(id).getNotifications();
