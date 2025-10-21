@@ -7,6 +7,7 @@ import bci.search.SearchByCreator;
 import bci.search.SearchByPrice;
 import bci.user.User;
 import bci.works.*;
+import bci.rules.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -34,12 +35,16 @@ class Library implements Serializable {
     private Map<Integer, Work> worksMap = new HashMap<>();
     /** User registry (id -> User). */
     private Map<Integer, User> usersMap = new HashMap<>();
+    /** Map of loan IDs to Loan objects. */
+    private final Map<Integer, Loan> loans = new HashMap<>();
     /** Auto-increment id for imported works (since text format has no id). */
     /**Map for work Loans*/
     private Map<Integer, Loan> loansMap = new HashMap<>();
     private int nextWorkId = 1;
     /** Auto-increment id for users. */
     private int nextUserId = 1;
+    /** Auto-increment id for loans */
+    private int nextLoanId = 1;
     /** Current logical date of the library (start at 1 to match tests). */
     private int currentDate = 1;
 
@@ -404,7 +409,88 @@ class Library implements Serializable {
         return result;
     }
 
+    /**
+     * Request a work for a user.
+     * @param user the user requesting
+     * @param work the work to request
+     * @return due date if successful, -1 if any rule fails
+     */
+    public int requestWork(User user, Work work) {
+        RequestRule rules = createRequestRules();
+        
+        if (!rules.validate(user, work)) {
+            return -1;
+        }
 
+        int period = user.getBehavior().loanPeriodForCopies(work.getTotalCopies());
+        int dueDate = currentDate + period;
+
+        int loanId = nextLoanId++;
+        Loan loan = new Loan(loanId, user.getId(), work.getId(), currentDate, dueDate);
+        loans.put(loanId, loan);
+
+        work.decrementAvailableCopies();
+
+        return dueDate;
+    }
+
+
+    /**
+     * Return a work borrowed by a user.
+     * @param userId user ID
+     * @param workId work ID
+     * @return true if successful
+     */
+    public boolean returnWork(int userId, int workId) {
+        User user = getUser(userId);
+        Work work = getWork(workId);
+        
+        if (user == null || work == null) return false;
+
+        Loan loan = findActiveLoan(userId, workId);
+        if (loan == null) return false;
+
+        loan.returnWork(currentDate);
+        boolean onTime = loan.isReturnedOnTime();
+
+        if (!onTime) {
+            int daysLate = loan.getDaysLate(currentDate);
+            user.addFine(daysLate * 5);
+            user.setSuspended();
+        }
+
+        user.recordReturn(onTime);
+        work.incrementAvailableCopies();
+
+        return true;
+    }
+
+    /**
+     * Creates the composite request rules for processing work requests.
+     * @return the composite request rule
+     */
+    private RequestRule createRequestRules() {
+        CompositeRequestRule compositeRule = new CompositeRequestRule();
+
+        compositeRule.addRules(new DuplicateRequestRule());
+        compositeRule.addRules(new SuspendedUserRule());
+        compositeRule.addRules(new WorkAvailabilityRule());
+        compositeRule.addRules(new MaxRequestsRule());
+        compositeRule.addRules(new ReferenceWorkRule());
+        compositeRule.addRules(new ExpensiveWorkRule());
+
+        return compositeRule;
+    }
+
+
+    private Loan findActiveLoan(int userId, int workId) {
+        return loans.values().stream()
+            .filter(l -> l.getUserId() == userId && 
+                        l.getWorkId() == workId && 
+                        l.isActive())
+            .findFirst()
+            .orElse(null);
+    }
     /**
      * Applies a fine to a user.
      * @param user the user to apply the fine to
@@ -434,7 +520,7 @@ class Library implements Serializable {
         loansMap.values().forEach(loan -> {
             if (!loan.isReturned() && loan.getDueDate() < currentDate) {
 
-                User user = getUser(loan.getUser().getId());
+                User user = getUser(loan.getUserId());
                 if (user != null) {
                     user.setSuspended();
                 }
@@ -524,7 +610,7 @@ class Library implements Serializable {
     	int dueDate=user.getBehavior().loanPeriodForCopies(work.getTotalCopies())+requestDate;
         int loanId = loansMap.size() + 1;
         
-        Loan loan = new Loan(loanId, user, work, requestDate, dueDate);
+        Loan loan = new Loan(loanId, user.getId(), work.getId(), requestDate, dueDate);
         loansMap.put(loanId, loan);
         user.setLoans(loan);
         return dueDate;

@@ -113,6 +113,24 @@ public abstract class Work implements Serializable, Observable {
     }
 
     /**
+     * Decreases the number of available copies by one (when borrowed).
+     */
+    public void decrementAvailableCopies() {
+        if (availableCopies > 0) {
+            availableCopies--;
+        }
+    }
+
+    /**
+    * Increments the number of available copies by 1 (when returned).
+    */
+    public void incrementAvailableCopies() {
+        if (availableCopies < totalCopies) {
+            availableCopies++;
+        }
+    }
+
+    /**
      * Adds a creator to the work.
      * @param creator the creator to add
      */
@@ -206,4 +224,6 @@ public abstract class Work implements Serializable, Observable {
 
  
 
+
+    
 }

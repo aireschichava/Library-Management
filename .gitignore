@@ -15,7 +15,7 @@ po24-hva
 Vet2024
 Marmaid-PO-uilib.txt
 ProjectContext
-PersonalTesteAires.java
+PersonalTest.java
 auto-tests/
 Autotest/
 po25-master
@@ -26,4 +26,5 @@ user
 faltoso
 cumpridor
 requisicao
+PersonalTest.java
 

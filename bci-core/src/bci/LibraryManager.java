@@ -170,6 +170,10 @@ public class LibraryManager {
         return library.showUser(id);
     }
 
+    public User getUser(int id) {
+        return library.getUser(id);
+    }
+
     public List<User> getAllUsers() {
         return library.getAllUsers();
     }
@@ -179,14 +183,6 @@ public class LibraryManager {
         return library.clearFine(user);
     }
 
-    /**
-     * Get user by ID
-     * @param id
-     * @return User
-     */
-    public User getUser(int id) {
-		return library.getUser(id);
-	}
 
     /**
      * Get user notifications by user ID
