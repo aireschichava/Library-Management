@@ -3,6 +3,7 @@ package bci;
 import bci.exceptions.*;
 import bci.user.User;
 import bci.works.Creator;
+import bci.works.Loan;
 import bci.works.Work;
 import java.io.*;
 import java.util.List;
@@ -219,4 +220,12 @@ public class LibraryManager {
 		return library.LoanWork(user, work, requestDate);
     }
 
+    public Loan findActiveLoan(int userId, int workId) {
+        return library.findActiveLoan(userId, workId);
+    }
+
+
+    public boolean payFine(User user) {
+        return library.payFine(user);
+    }
 }

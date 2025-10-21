@@ -16,14 +16,14 @@ class DoRequestWork extends Command<LibraryManager> {
     DoRequestWork(LibraryManager receiver) {
         super(Label.REQUEST_WORK, receiver);
 		 addIntegerField("User ID: ", bci.app.user.Prompt.userId());
-         addIntegerField("work Id", bci.app.work.Prompt.workId());
+         addIntegerField("Work ID: ", bci.app.work.Prompt.workId());
         
     }
 
     @Override
     protected final void execute() throws CommandException {
         int userId = integerField("User ID: ");
-		int workId = integerField("work Id");
+		int workId = integerField("Work ID: ");
 		
 		User user = _receiver.getUser(userId);
 		if (user == null) {
