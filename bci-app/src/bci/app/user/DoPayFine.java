@@ -33,7 +33,7 @@ class DoPayFine extends Command<LibraryManager> {
         if (user == null) 
             throw new NoSuchUserException(userId);
         
-        boolean success = _receiver.payFine(user, 5);
+        boolean success = _receiver.payFine(user);
         if (!success) {
             throw new UserIsActiveException(userId);
         }

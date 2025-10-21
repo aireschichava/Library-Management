@@ -160,7 +160,7 @@ public abstract class Work implements Serializable, Observable {
      * @return the message string
      */
     public String message() {
-        return "DISPONIBILIDADE:" + getId() + " - " + getAvailableCopies() + " de " + getTotalCopies() + " - " +
+        return "DISPONIBILIDADE: " + getId() + " - " + getAvailableCopies() + " de " + getTotalCopies() + " - " +
                getWorkName() + " - " + getTitle() + " - " + getPrice() + " - " + getCategory() +
                " - " + getAdditionalInfo();
     }
@@ -199,8 +199,6 @@ public abstract class Work implements Serializable, Observable {
 
 //can be deleted after
     public boolean returnWork() {
-
-
         if((availableCopies+1)>totalCopies)
             return false;
         availableCopies ++;

@@ -116,7 +116,8 @@ public class User implements Serializable, Observer {
 	 
 	 /** Returns the number of active loans.*/
 	 public int getNumberOfLoans() {
-		 return this.loans.size();
+        // count only active loans
+        return (int) this.loans.stream().filter(loan -> loan.isActive()).count();
 	 }
     
     /**

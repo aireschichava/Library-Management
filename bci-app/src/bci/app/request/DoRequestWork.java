@@ -3,6 +3,7 @@ package bci.app.request;
 import bci.LibraryManager;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import pt.tecnico.uilib.forms.Form;
 import bci.app.exceptions.*;
 import bci.user.User;
 import bci.works.Work;
@@ -31,7 +32,7 @@ class DoRequestWork extends Command<LibraryManager> {
 		}
 		Work work = _receiver.getWork(workId);
 		if (work == null) {
-			throw new bci.app.exceptions.NoSuchWorkException(workId);
+			throw new NoSuchWorkException(workId);
 		}
 		
 		
@@ -43,13 +44,13 @@ class DoRequestWork extends Command<LibraryManager> {
 		}
 		//if rule 3 (notification preference) passed, ask user if they want to be notified
 		//if yes add them as observer to the work
-		if (ruleId ==3) {
-			addBooleanField("Be_notified", Prompt.returnNotificationPreference());
-			boolean wantsNotification = booleanField("Be_notified");
-			if (wantsNotification)
+		if (ruleId == 3) {
+			// Ask directly for confirmation instead of adding a boolean field at runtime
+			boolean wantsNotification = Form.confirm(Prompt.returnNotificationPreference());
+			if (wantsNotification) {
 				_receiver.addObserver(user, work);
+			}
 			return;
-			
 		}
 		
 		int day=_receiver.loanWork(user, work, _receiver.getCurrentDate());

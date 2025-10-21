@@ -7,7 +7,7 @@ public class DVD extends Work {
     /** IGAC number of the DVD. */
     private String igacNumber;
     /** Director of the DVD. */
-    private Creator director;
+
 
 
     @java.io.Serial
@@ -72,7 +72,8 @@ public class DVD extends Work {
         if (getTitle().toLowerCase().contains(lowerTerm)) {
             return true;
         }
-        return director != null && director.getName().toLowerCase().contains(lowerTerm);
+        Creator dir = getDirector();
+        return dir != null && dir.getName().toLowerCase().contains(lowerTerm);
     }
 
 	/**

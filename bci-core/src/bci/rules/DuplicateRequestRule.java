@@ -13,8 +13,8 @@ public class DuplicateRequestRule implements RequestRule {
 	
     @Override
     public boolean validate(User user, Work work) {
-
-        return user.getLoans().stream().noneMatch(loan -> loan.getWorkId() == work.getId());
+		// Only consider active (not returned) loans when checking for duplicates
+		return user.getLoans().stream().noneMatch(loan -> loan.getWorkId() == work.getId() && loan.isActive());
     }
 
 	@Override

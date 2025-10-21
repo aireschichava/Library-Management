@@ -3,10 +3,12 @@ package bci.app.request;
 import bci.LibraryManager;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import pt.tecnico.uilib.forms.Form;
 import bci.app.exceptions.NoSuchUserException;
 import bci.app.exceptions.NoSuchWorkException;
 import bci.app.exceptions.WorkNotBorrowedByUserException;
 import bci.user.User;
+import bci.ReturnResult;
 import bci.works.Loan;
 import bci.works.Work;
 
@@ -42,27 +44,18 @@ class DoReturnWork extends Command<LibraryManager> {
             throw new WorkNotBorrowedByUserException(workId, userId);
         }
 
-        int copiesBeforeReturn = work.getAvailableCopies();
-        int currentDate = _receiver.getCurrentDate();
-        loan.returnWork(currentDate);
+        // delegate domain handling to LibraryManager and present results
+        ReturnResult result = _receiver.returnWork(userId, workId);
+        if (!result.isSuccess()) {
+            throw new WorkNotBorrowedByUserException(workId, userId);
+        }
 
-        int fine = 0;
-        if (!loan.isReturnedOnTime()) {
-            int daysLate = loan.getDaysLate(currentDate);
-            fine = daysLate * 5;
-            user.addFine(fine);
-            user.setSuspended();
-
-            _display.popup(Message.showFine(userId, fine));
-            addBooleanField("payFine", Prompt.finePaymentChoice()); // "(s/n)"
-            boolean wantsToPay = booleanField("payFine");
-
+        if (result.getFine() > 0) {
+            _display.popup(Message.showFine(userId, result.getFine()));
+            boolean wantsToPay = Form.confirm(Prompt.finePaymentChoice());
             if (wantsToPay) {
                 _receiver.payFine(user);
             }
-        }
-        if (copiesBeforeReturn == 0 && work.getAvailableCopies() > 0) {
-            work.notifyObservers(work.message());
         }
     }
 }

@@ -21,6 +21,9 @@ public class LibraryManager {
     /** The filename associated with the current library state (for save/load). */
     private String _filename = null;
 
+    /** Flag to indicate if the library has unsaved changes. */
+    private boolean _dirty = false;
+
     /**
      * Saves the current library state to the associated file.
      * @throws MissingFileAssociationException if no file is associated with the current state
@@ -33,6 +36,7 @@ public class LibraryManager {
         try (ObjectOutputStream oos = new ObjectOutputStream(
                 new BufferedOutputStream(new FileOutputStream(_filename)))) {
             oos.writeObject(library);
+            _dirty = false;
         }
     }
 
@@ -53,9 +57,9 @@ public class LibraryManager {
     public void load(String filename) throws UnavailableFileException {
         try (ObjectInputStream ois = new ObjectInputStream(
                 new BufferedInputStream(new FileInputStream(filename)))) {
-
             library = (Library) ois.readObject();
             _filename = filename;
+            _dirty = false;
         } catch (IOException | ClassNotFoundException e) {
             throw new UnavailableFileException(filename);
         }
@@ -73,6 +77,7 @@ public class LibraryManager {
         try {
             if (filename != null && !filename.isEmpty()) {
                 library.importFile(filename);
+                _dirty = true;
             }
         } catch (IOException | UnrecognizedEntryException e) {
             throw new ImportFileException(filename, e);
@@ -86,6 +91,7 @@ public class LibraryManager {
   
     public void addWork(Work work) {
         library.addWork(work);
+        _dirty = true;
     }
 
     /**
@@ -140,7 +146,9 @@ public class LibraryManager {
      * Change inventory for a work and propagate domain exception on invalid change.
      */
     public void updateInventory(Work work, int amount) throws InvalidInventoryUpdateException {
+        _dirty = true;
         library.updateInventory(work, amount);
+        _dirty = true;
     }
 
 
@@ -151,6 +159,7 @@ public class LibraryManager {
 
     /** Advances the current logical date by a positive number of days. */
     public void advanceDate(int days) {
+        _dirty = true;
         library.advanceDate(days);
     }
 
@@ -161,9 +170,15 @@ public class LibraryManager {
      * @return the created user, or null if registration failed
      */
     public User registerUser(String name, String email) {
+        // Validate input: name and email must not be null or empty
+        if (name == null || name.trim().isEmpty() || email == null || email.trim().isEmpty()) {
+            return null;
+        }
+        _dirty = true;
         int id = library.getNextUserId();
         User user = new User(id, name, email);
         library.addUser(user);
+        _dirty = true;
         return user;
     }
 
@@ -178,13 +193,6 @@ public class LibraryManager {
     public List<User> getAllUsers() {
         return library.getAllUsers();
     }
-
-    //clears the fine of a user
-    public boolean payFine(User user, int amount) {
-        return library.clearFine(user);
-    }
-
-
     /**
      * Get user notifications by user ID
      * @param userId
@@ -198,6 +206,7 @@ public class LibraryManager {
      * @param id
      */
     public void clearNotifications(int id) {
+        _dirty = true;
         library.clearNotifications(id);
     }
     
@@ -207,7 +216,7 @@ public class LibraryManager {
 	 * @return int (0 if all rules pass, otherwise the ID of the failed rule)
 	 */
     public int validateRules(User user, Work work){
-    			return library.validateRules(user, work);	
+    		return library.validateRules(user, work);	
     }
     
     /*  * Loan a work to a user
@@ -217,27 +226,44 @@ public class LibraryManager {
      * @return int (return due date if loan successful, -1 otherwise)
      */
     public int loanWork(User user, Work work, int requestDate){
-		return library.LoanWork(user, work, requestDate);
+        _dirty = true;
+        return library.loanWork(user, work, requestDate);
     }
 
-<<<<<<< HEAD
     /** Adds a user as an observer to a work.
      * @param user
      * @param work
      */
     public void addObserver(User user, Work work) {
-  
+        _dirty = true;
         library.addObserver(user, work);
     }
 
-=======
     public Loan findActiveLoan(int userId, int workId) {
         return library.findActiveLoan(userId, workId);
     }
 
+    /**
+     * Process return of a work: handle loan return, fines, user status, and notifications.
+     * @param userId the id of the user returning
+     * @param workId the id of the work being returned
+     * @return a Result object containing details (fine amount, whether notifications were sent)
+     */
+    public ReturnResult returnWork(int userId, int workId) {
+        _dirty = true;
+        return library.returnWorkWithResult(userId, workId);
+    }
+
 
     public boolean payFine(User user) {
+        _dirty = true;
         return library.payFine(user);
     }
->>>>>>> 85fb18e81a1d881b0ec6c59baee7c92cc9341925
+
+    /**
+     * Returns whether there are unsaved changes.
+     */
+    public boolean isDirty() {
+        return _dirty;
+    }
 }

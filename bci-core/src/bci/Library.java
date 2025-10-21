@@ -1,10 +1,7 @@
 package bci;
 
 import bci.exceptions.*;
-<<<<<<< HEAD
 import bci.rules.*;
-=======
->>>>>>> 85fb18e81a1d881b0ec6c59baee7c92cc9341925
 import bci.search.DefaultSearch;
 import bci.search.SearchByCreator;
 import bci.search.SearchByPrice;
@@ -35,8 +32,6 @@ class Library implements Serializable {
     private Map<Integer, Work> worksMap = new HashMap<>();
     /** User registry (id -> User). */
     private Map<Integer, User> usersMap = new HashMap<>();
-    /** Map of loan IDs to Loan objects. */
-    private final Map<Integer, Loan> loans = new HashMap<>();
     /** Auto-increment id for imported works (since text format has no id). */
     /**Map for work Loans*/
     private Map<Integer, Loan> loansMap = new HashMap<>();
@@ -44,8 +39,6 @@ class Library implements Serializable {
     /** Auto-increment id for users. */
     private int nextUserId = 1;
     /** Auto-increment id for loans */
-    private int nextLoanId = 1;
-    /** Current logical date of the library (start at 1 to match tests). */
     private int currentDate = 1;
 
     /**
@@ -409,30 +402,6 @@ class Library implements Serializable {
         return result;
     }
 
-    /**
-     * Request a work for a user.
-     * @param user the user requesting
-     * @param work the work to request
-     * @return due date if successful, -1 if any rule fails
-     */
-    public int requestWork(User user, Work work) {
-        RequestRule rules = createRequestRules();
-        
-        if (!rules.validate(user, work)) {
-            return -1;
-        }
-
-        int period = user.getBehavior().loanPeriodForCopies(work.getTotalCopies());
-        int dueDate = currentDate + period;
-
-        int loanId = nextLoanId++;
-        Loan loan = new Loan(loanId, user.getId(), work.getId(), currentDate, dueDate);
-        loans.put(loanId, loan);
-
-        work.decrementAvailableCopies();
-
-        return dueDate;
-    }
 
 
     /**
@@ -465,31 +434,51 @@ class Library implements Serializable {
         return true;
     }
 
-    /**
-     * Creates the composite request rules for processing work requests.
-     * @return the composite request rule
-     */
-    private RequestRule createRequestRules() {
-        CompositeRequestRule compositeRule = new CompositeRequestRule();
-
-        compositeRule.addRules(new DuplicateRequestRule());
-        compositeRule.addRules(new SuspendedUserRule());
-        compositeRule.addRules(new WorkAvailabilityRule());
-        compositeRule.addRules(new MaxRequestsRule());
-        compositeRule.addRules(new ReferenceWorkRule());
-        compositeRule.addRules(new ExpensiveWorkRule());
-
-        return compositeRule;
-    }
-
-
     public Loan findActiveLoan(int userId, int workId) {
-        return loans.values().stream()
+        return loansMap.values().stream()
             .filter(l -> l.getUserId() == userId && 
                         l.getWorkId() == workId && 
                         l.isActive())
             .findFirst()
             .orElse(null);
+    }
+
+    /**
+     * Process the return and produce a small result with details needed by the UI.
+     */
+    public ReturnResult returnWorkWithResult(int userId, int workId) {
+        User user = getUser(userId);
+        Work work = getWork(workId);
+        if (user == null || work == null) return new ReturnResult(false, 0, false);
+
+        Loan loan = findActiveLoan(userId, workId);
+        if (loan == null) return new ReturnResult(false, 0, false);
+
+    int copiesBeforeReturn = work.getAvailableCopies();
+    int today = this.currentDate;
+    loan.returnWork(today);
+    boolean onTime = loan.isReturnedOnTime();
+        int fine = 0;
+        if (!onTime) {
+            int daysLate = loan.getDaysLate(today);
+            fine = daysLate * 5;
+            user.addFine(fine);
+            user.setSuspended();
+            // Return the user's total fine (cumulative) so the UI can display the
+            // updated amount to be paid, matching the expected test outputs.
+            fine = user.getFine();
+        }
+
+        user.recordReturn(onTime);
+        work.incrementAvailableCopies();
+
+        boolean notified = false;
+        if (copiesBeforeReturn == 0 && work.getAvailableCopies() > 0) {
+            work.notifyObservers(work.message());
+            notified = true;
+        }
+
+        return new ReturnResult(true, fine, notified);
     }
     /**
      * Applies a fine to a user.
@@ -498,17 +487,7 @@ class Library implements Serializable {
     public void applyFine(User user){
         user.addFine(5);
     }
-
-    /**
-     * Clears the fine for a user.
-     * @param user the user whose fine is to be cleared
-     */
-    public boolean  clearFine(User user){
-        
-         return user.clearFine();
-    }
-
-    /**
+   /**
      * Updates user statuses based on overdue loans.
      * This method checks all active loans and suspends users with overdue loans.
      * we first iterate through all loans in the loansMap. If a loan is found to be overdue (i.e., not returned and past its due date),
@@ -524,7 +503,6 @@ class Library implements Serializable {
                 if (user != null) {
                     user.setSuspended();
                 }
-                applyFine(user);
             }
             
         }
@@ -605,7 +583,7 @@ class Library implements Serializable {
 	 * @return the loan ID
 	 * according to the user's behavior and the number of copies of the work, we determine the due date for the loan.
 	 */
-    public int LoanWork(User user, Work work, int requestDate) {
+    public int loanWork(User user, Work work, int requestDate) {
     	
     	int dueDate=user.getBehavior().loanPeriodForCopies(work.getTotalCopies())+requestDate;
         int loanId = loansMap.size() + 1;
@@ -613,6 +591,7 @@ class Library implements Serializable {
         Loan loan = new Loan(loanId, user.getId(), work.getId(), requestDate, dueDate);
         loansMap.put(loanId, loan);
         user.setLoans(loan);
+        work.decrementAvailableCopies();
         return dueDate;
     }
 
@@ -627,7 +606,7 @@ class Library implements Serializable {
     public boolean payFine(User user) {
         user.clearFine();
 
-        boolean hasOverdueLoans = loans.values().stream()
+        boolean hasOverdueLoans = loansMap.values().stream()
         .anyMatch(loan -> loan.getUserId() == user.getId() && 
                          loan.isActive() && 
                          loan.isOverdue(currentDate));
