@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/opt/homebrew/bin/bash
+set -uo pipefail
 
 ROOT_DIR=$(cd "$(dirname "$0")" && pwd)
 
@@ -61,10 +61,13 @@ for infile in "${TEST_DIR}"/*.in; do
     (( passed++ ))
   else
     echo "- ${testname}: [FAIL] output differs"
-    echo "  diff:" && diff -u "${expfile}" "${outfile}" || true
+    echo "  --- DIFF START ---"
+    diff -u "${expfile}" "${outfile}" || true
+    echo "  --- DIFF END ---"
   fi
   rm -f "${outfile}"
 done
 
-echo "\nSummary: ${passed}/${total} passed"
+echo
+echo "Summary: ${passed}/${total} passed"
 exit $(( total - passed ))

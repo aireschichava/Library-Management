@@ -24,6 +24,7 @@ class DoShowUserNotifications extends Command<LibraryManager> {
                 throw new NoSuchUserException(userId);
             }
         _display.popup(_receiver.getUserNotifications(userId));
+        _receiver.clearNotifications(userId);
     }
 
 }
