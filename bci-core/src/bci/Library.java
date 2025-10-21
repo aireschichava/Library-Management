@@ -1,7 +1,10 @@
 package bci;
 
 import bci.exceptions.*;
+<<<<<<< HEAD
 import bci.rules.*;
+=======
+>>>>>>> 85fb18e81a1d881b0ec6c59baee7c92cc9341925
 import bci.search.DefaultSearch;
 import bci.search.SearchByCreator;
 import bci.search.SearchByPrice;
@@ -480,7 +483,7 @@ class Library implements Serializable {
     }
 
 
-    private Loan findActiveLoan(int userId, int workId) {
+    public Loan findActiveLoan(int userId, int workId) {
         return loans.values().stream()
             .filter(l -> l.getUserId() == userId && 
                         l.getWorkId() == workId && 
@@ -619,6 +622,22 @@ class Library implements Serializable {
     public void addObserver(User user, Work work) {
   
         work.addObserver(user);
+    }
+
+    public boolean payFine(User user) {
+        user.clearFine();
+
+        boolean hasOverdueLoans = loans.values().stream()
+        .anyMatch(loan -> loan.getUserId() == user.getId() && 
+                         loan.isActive() && 
+                         loan.isOverdue(currentDate));
+        
+        if (!hasOverdueLoans) {
+            user.setActive();
+            return true;
+        }
+
+        return false;
     }
 
 }
