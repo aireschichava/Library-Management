@@ -220,6 +220,13 @@ public class User implements Serializable, Observer {
             this.behaviour = new Compliant();
             return;
         }
+        // If the user was previously CUMPRIDOR but the last 5 returns are not all
+        // on-time any more, demote to NORMAL (unless other rules apply).
+        if (this.behaviour instanceof Compliant &&
+            !(lastReturns.size() == 5 && lastReturns.stream().allMatch(Boolean::booleanValue))) {
+            this.behaviour = new Normal();
+            return;
+        }
         // 3) FALTOSO → NORMAL: 3 devoluções consecutivas dentro do prazo
         if (behaviour instanceof Faulty && consecOnTime >= 3) {
             this.behaviour = new Normal();

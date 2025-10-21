@@ -604,13 +604,20 @@ class Library implements Serializable {
     }
 
     public boolean payFine(User user) {
+        // If the user is not suspended, there is no fine to pay — signal failure
+        // so the UI command can throw UserIsActiveException with the proper message.
+        if (!user.isSuspended()) {
+            return false;
+        }
+
+        // Clear the fine and reactivate the user if there are no overdue loans.
         user.clearFine();
 
         boolean hasOverdueLoans = loansMap.values().stream()
         .anyMatch(loan -> loan.getUserId() == user.getId() && 
                          loan.isActive() && 
                          loan.isOverdue(currentDate));
-        
+
         if (!hasOverdueLoans) {
             user.setActive();
             return true;
