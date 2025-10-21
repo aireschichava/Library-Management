@@ -53,6 +53,8 @@ public class User implements Serializable, Observer {
         this.status = new Active();
         this.behaviour = new Normal();
         this.lastReturns = new ArrayDeque<>(5);
+        this.loans = new ArrayList<>();
+        this.userNotifications=new ArrayList<>();
         this.fine = 0; 
     }
 
@@ -173,6 +175,11 @@ public class User implements Serializable, Observer {
     public List<Loan> getLoansList() {
         return loans;
     }
+
+    /**Clears user notifications.*/
+    public void clearNotifications() {
+        userNotifications.clear();
+    }
     
     /**
      * Checks if the user is suspended.
@@ -246,3 +253,7 @@ public class User implements Serializable, Observer {
 
 
 }
+
+
+//implement  the nitification once someone  retunrs the work
+//e remover notification after user checks it

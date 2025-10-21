@@ -14,7 +14,7 @@ public class ReferenceWorkRule implements RequestRule {
     @Override
     public boolean validate(User user, Work work) {
       
-        return work.getCategory()==Category.REFERENCE;
+        return work.getCategory()!=Category.REFERENCE;
     }
 
     @Override

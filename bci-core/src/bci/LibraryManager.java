@@ -78,8 +78,6 @@ public class LibraryManager {
         }
     }
 
-
-
     /**
      * Search works by a term, delegating to Library
      * 
@@ -193,6 +191,32 @@ public class LibraryManager {
      */
     public List<String > getUserNotifications(int userId) {
         return library.getUserNotifications(userId);
+    }
+
+    /** Clear user notifications by user ID
+     * @param id
+     */
+    public void clearNotifications(int id) {
+        library.clearNotifications(id);
+    }
+    
+    /*  * Validate rules for a user and work
+	 * @param user
+	 * @param work
+	 * @return int (0 if all rules pass, otherwise the ID of the failed rule)
+	 */
+    public int validateRules(User user, Work work){
+    			return library.validateRules(user, work);	
+    }
+    
+    /*  * Loan a work to a user
+     * @param user
+     * @param work
+     * @param requestDate
+     * @return int (return due date if loan successful, -1 otherwise)
+     */
+    public int loanWork(User user, Work work, int requestDate){
+		return library.LoanWork(user, work, requestDate);
     }
 
 }

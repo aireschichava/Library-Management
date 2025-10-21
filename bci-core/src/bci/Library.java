@@ -1,6 +1,7 @@
 package bci;
 
 import bci.exceptions.*;
+import bci.rules.RequestRule;
 import bci.search.DefaultSearch;
 import bci.search.SearchByCreator;
 import bci.search.SearchByPrice;
@@ -16,6 +17,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import bci.rules.*;
+import bci.works.Loan;
 
 /**
  * Class that represents the library as a whole.
@@ -346,9 +349,6 @@ class Library implements Serializable {
         }
     }
 
-
-    
-
     /**
      * Returns the current logical date.
      * @return the current date
@@ -559,6 +559,62 @@ class Library implements Serializable {
     public List<String> getUserNotifications(int id) {
     
         return usersMap.get(id).getNotifications();
+    }
+
+    /**
+     * Removes all notifications for a user by their ID.
+     * @param id the user ID
+     * we first retrieve the User object from the usersMap using the provided ID.
+     * Then, we call the clearNotifications method on the User object to remove their notifications.
+     */
+    public void clearNotifications(int id) {
+        User user = usersMap.get(id);
+        if (user != null) {
+            user.clearNotifications();
+        }
+    }
+
+    /**
+	 * Validates the request rules for a user requesting a work.
+	 * @param user the user making the request
+	 * @param work the work being requested
+	 * @return the ID of the failed rule, or 0 if all rules pass
+	 */
+    public int validateRules(User user, Work work) {
+		
+		RequestRule rule = new CompositeRequestRule();
+		//cast the rule to CompositeRequestRule to access addRules method and then acreate instances of each rule and add them to the composite
+		((CompositeRequestRule) rule).addRules(
+				new DuplicateRequestRule(),
+				new SuspendedUserRule(),
+				new WorkAvailabilityRule(),
+				new MaxRequestsRule(),
+				new ReferenceWorkRule()
+		);
+		
+		if (!rule.validate(user, work))
+			return rule.getId();
+		return 0;
+    }
+    
+    /**
+	 * Processes a loan request for a user and work.
+	 * @param user the user making the request
+	 * @param work the work being requested
+	 * @param requestDate the date of the request
+	 * @return the loan ID
+	 * according to the user's behavior and the number of copies of the work, we determine the due date for the loan.
+	 */
+    public int LoanWork(User user, Work work, int requestDate) {
+    	
+    	int dueDate=user.getBehavior().loanPeriodForCopies(work.getTotalCopies());
+        int loanId = loansMap.size() + 1;
+        
+        Loan loan = new Loan(loanId, user.getId(), work.getId(), requestDate, dueDate);
+        loansMap.put(loanId, loan);
+        user.setLoans(loan);
+        return dueDate;
+
     }
 
 }

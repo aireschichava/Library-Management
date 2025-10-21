@@ -154,6 +154,7 @@ public abstract class Work implements Serializable, Observable {
         return false;
     }
 
+
     /**
      * Returns a formatted message string for the work.
      * @return the message string
@@ -193,6 +194,33 @@ public abstract class Work implements Serializable, Observable {
 		}
 		
 	}
+
+
+
+//can be deleted after
+    public boolean returnWork() {
+
+
+        if((availableCopies+1)>totalCopies)
+            return false;
+        availableCopies ++;
+        if (availableCopies==1) {
+            notifyObservers(message());
+        }
+        return true;
+    }
+
+    public boolean loanWork() {
+
+        if (availableCopies > 0) {
+            availableCopies -= 1;
+            return true;
+        }
+        return false;
+    }
+
+
+    //can be deleted after
 
  
 
