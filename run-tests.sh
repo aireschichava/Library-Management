@@ -1,4 +1,5 @@
-#!/opt/homebrew/bin/bash
+#!/bin/bash
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 set -uo pipefail
 
 ROOT_DIR=$(cd "$(dirname "$0")" && pwd)
@@ -37,12 +38,17 @@ shopt -s nullglob
 for infile in "${TEST_DIR}"/*.in; do
   testname=$(basename "${infile}" .in)
   expfile="${EXP_DIR}/${testname}.out"
+  # Extract group (e.g., A-03 from A-03-04-M-ok)
+  group=$(echo "$testname" | cut -d'-' -f1-2)
+  resultdir="${TEST_DIR}/results/${group}"
+  mkdir -p "$resultdir"
+  outfile="${resultdir}/output-${testname}.txt"
+  difffile="${resultdir}/diff-${testname}.txt"
   (( total++ ))
   if [[ ! -f "${expfile}" ]]; then
     echo "- ${testname}: [SKIP] expected file missing: ${expfile}"
     continue
   fi
-  outfile=$(mktemp)
   # If there's a matching .import file, pass it via -Dimport
   impfile="${TEST_DIR}/${testname}.import"
   if [[ -f "${impfile}" ]]; then
@@ -59,13 +65,13 @@ for infile in "${TEST_DIR}"/*.in; do
   if diff -u "${expfile}" "${outfile}" > /dev/null; then
     echo "- ${testname}: [PASS]"
     (( passed++ ))
+    rm -f "${difffile}"
   else
     echo "- ${testname}: [FAIL] output differs"
-    echo "  --- DIFF START ---"
-    diff -u "${expfile}" "${outfile}" || true
-    echo "  --- DIFF END ---"
+    diff -u "${expfile}" "${outfile}" > "${difffile}" || true
+    echo "  --- DIFF written to ${difffile} ---"
   fi
-  rm -f "${outfile}"
+  # Keep output file for inspection
 done
 
 echo

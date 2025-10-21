@@ -604,7 +604,7 @@ class Library implements Serializable {
 	 */
     public int LoanWork(User user, Work work, int requestDate) {
     	
-    	int dueDate=user.getBehavior().loanPeriodForCopies(work.getTotalCopies());
+    	int dueDate=user.getBehavior().loanPeriodForCopies(work.getTotalCopies())+requestDate;
         int loanId = loansMap.size() + 1;
         
         Loan loan = new Loan(loanId, user.getId(), work.getId(), requestDate, dueDate);
