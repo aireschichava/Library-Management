@@ -6,6 +6,7 @@ import bci.search.SearchByCreator;
 import bci.search.SearchByPrice;
 import bci.user.User;
 import bci.works.*;
+import bci.rules.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -26,14 +27,16 @@ class Library implements Serializable {
     private static final long serialVersionUID = 202507171003L;
 
     /** Map of creator names to Creator objects. */
-    private Map<String, Creator> creatorMap = new HashMap<>();
+    private Map<String, Creator> creatorsMap = new HashMap<>();
     /** Map of work IDs to Work objects. */
-    private Map<Integer, Work> workMap = new HashMap<>();
+    private Map<Integer, Work> worksMap = new HashMap<>();
     /** User registry (id -> User). */
-    private Map<Integer, User> users = new HashMap<>();
+    private Map<Integer, User> usersMap = new HashMap<>();
     /** Map of loan IDs to Loan objects. */
     private final Map<Integer, Loan> loans = new HashMap<>();
     /** Auto-increment id for imported works (since text format has no id). */
+    /**Map for work Loans*/
+    private Map<Integer, Loan> loansMap = new HashMap<>();
     private int nextWorkId = 1;
     /** Auto-increment id for users. */
     private int nextUserId = 1;
@@ -171,20 +174,17 @@ class Library implements Serializable {
             }
         }
 
-
-       
 /** Returns all works in the library, sorted by their ID.
      * @return list of all works
      */
     public List<Work> getAllWorks() 
     {
-        List<Work> result = new ArrayList<>(workMap.values());
+        List<Work> result = new ArrayList<>(worksMap.values());
         result.sort(Comparator.comparingInt(Work::getId));
         return result;
     }
 
    
-
     /**
      * Returns the creator with the given name, creating it if it doesn't exist.
      * @param name the name of the creator
@@ -193,10 +193,10 @@ class Library implements Serializable {
     */
     public Creator getOrCreateCreator(String name)
     {
-        Creator creator = creatorMap.get(name);
+        Creator creator = creatorsMap.get(name);
         if (creator == null) {
             creator = new Creator(name);
-            creatorMap.put(name, creator);
+            creatorsMap.put(name, creator);
         }
         return creator;
     }
@@ -207,7 +207,7 @@ class Library implements Serializable {
      * @return the Creator object or null if not found
     */
     public Creator getCreator(String name) {
-        Creator creator = creatorMap.get(name);
+        Creator creator = creatorsMap.get(name);
         return creator;
     }
 
@@ -218,11 +218,11 @@ class Library implements Serializable {
      * @param work the work to add
      */
     public void addWork(Work work) {
-        workMap.put(work.getId(), work);
+        worksMap.put(work.getId(), work);
           for (Creator creator : work.getCreators())
            {
       
-             creatorMap.putIfAbsent(creator.getName(), creator);
+             creatorsMap.putIfAbsent(creator.getName(), creator);
             
            }
            
@@ -237,7 +237,7 @@ class Library implements Serializable {
    */
   public Work getWork(int id)
   {
-      Work work = workMap.get(id);
+      Work work = worksMap.get(id);
       if (work == null) {
           
       }
@@ -251,12 +251,12 @@ class Library implements Serializable {
      */
     public void removeWork(Work work) {
         List<Creator> creators = work.getCreators();
-        workMap.remove(work.getId());
+        worksMap.remove(work.getId());
 
         for (Creator creator : creators) {
             creator.removeWork(work);
             if (!creator.hasWorks()) {
-                creatorMap.remove(creator.getName());
+                creatorsMap.remove(creator.getName());
             }
         }
     }
@@ -273,7 +273,7 @@ class Library implements Serializable {
     public List<Work> searchWorks(String term) 
     {
         List<Work> result = new ArrayList<>();
-        for (Work w : workMap.values()) {
+        for (Work w : worksMap.values()) {
             if (new DefaultSearch(w).search(term)) 
             {
                 result.add(w);
@@ -293,7 +293,7 @@ class Library implements Serializable {
     {
         List<Work> result = new ArrayList<>();
         String term = Integer.toString(price);
-        for (Work w : workMap.values()) {
+        for (Work w : worksMap.values()) {
             if (new SearchByPrice(w).search(term)) 
             {
                 result.add(w);
@@ -311,7 +311,7 @@ class Library implements Serializable {
     public List<Work> searchWorksByCreator(String creatorName) 
     {
         List<Work> result = new ArrayList<>();
-        for (Work w : workMap.values()) 
+        for (Work w : worksMap.values()) 
         {
             if (new SearchByCreator(w).search(creatorName)) 
             {
@@ -327,6 +327,7 @@ class Library implements Serializable {
 
     /**
      * Updates the inventory for a specific work item.
+     * we add more new copies or remove existing copies from the work.
      *
      * @param work   the work item to update
      * @param amount the amount to update the inventory by (can be negative)
@@ -334,7 +335,7 @@ class Library implements Serializable {
      */
     public void updateInventory(Work work, int amount) throws InvalidInventoryUpdateException {
         if (work == null) {
-            return; // or throw unknown work later if required
+            return;
         }
         if (!work.updateInventory(amount)) {
             throw new InvalidInventoryUpdateException();
@@ -344,6 +345,9 @@ class Library implements Serializable {
 
         }
     }
+
+
+    
 
     /**
      * Returns the current logical date.
@@ -364,13 +368,7 @@ class Library implements Serializable {
         }
     }
 
-    /**
-     * Hook to update user statuses based on date changes (no-op for now).
-     */
-    private void updateUserStatus() {
-        // Future: iterate users and adjust suspension, etc.
-    }
-
+    
     /**
      * Returns the next available user ID and increments the counter.
      * @return the next user ID
@@ -381,14 +379,14 @@ class Library implements Serializable {
      * Adds a user to the library.
      * @param user the user to add
      */
-    public void addUser(User user) { if (user != null) users.put(user.getId(), user); }
+    public void addUser(User user) { if (user != null) usersMap.put(user.getId(), user); }
 
     /**
      * Returns the user with the given ID.
      * @param id the user ID
      * @return the User object or null if not found
      */
-    public User getUser(int id) { return users.get(id); }
+    public User getUser(int id) { return usersMap.get(id); }
 
     /**
      * Returns a display string for the user with the given ID.
@@ -396,7 +394,7 @@ class Library implements Serializable {
      * @return display string or null if user not found
      */
     public String showUser(int id) {
-        User user = users.get(id);
+        User user = usersMap.get(id);
         return user == null ? null : user.toDisplayString();
     }
 
@@ -405,7 +403,7 @@ class Library implements Serializable {
      * @return list of all users
      */
     public List<User> getAllUsers() {
-        List<User> result = new ArrayList<>(users.values());
+        List<User> result = new ArrayList<>(usersMap.values());
         result.sort(Comparator.comparing(User::getName, String.CASE_INSENSITIVE_ORDER)
                               .thenComparingInt(User::getId));
         return result;
@@ -452,7 +450,7 @@ class Library implements Serializable {
         Loan loan = findActiveLoan(userId, workId);
         if (loan == null) return false;
 
-        loan.markReturned(currentDate);
+        loan.returnWork(currentDate);
         boolean onTime = loan.isReturnedOnTime();
 
         if (!onTime) {
@@ -463,7 +461,6 @@ class Library implements Serializable {
 
         user.recordReturn(onTime);
         work.incrementAvailableCopies();
-        notifyWorkAvailable(work);
 
         return true;
     }
@@ -475,12 +472,12 @@ class Library implements Serializable {
     private RequestRule createRequestRules() {
         CompositeRequestRule compositeRule = new CompositeRequestRule();
 
-        compositeRule.addRule(new DuplicateRequestRule());
-        compositeRule.addRule(new SuspendedUserRule());
-        compositeRule.addRule(new WorkAvailabilityRule());
-        compositeRule.addRule(new MaxRequestsRule());
-        compositeRule.addRule(new ReferenceWorkRule());
-        compositeRule.addRule(new ExpensiveWorkRule());
+        compositeRule.addRules(new DuplicateRequestRule());
+        compositeRule.addRules(new SuspendedUserRule());
+        compositeRule.addRules(new WorkAvailabilityRule());
+        compositeRule.addRules(new MaxRequestsRule());
+        compositeRule.addRules(new ReferenceWorkRule());
+        compositeRule.addRules(new ExpensiveWorkRule());
 
         return compositeRule;
     }
@@ -494,4 +491,74 @@ class Library implements Serializable {
             .findFirst()
             .orElse(null);
     }
+    /**
+     * Applies a fine to a user.
+     * @param user the user to apply the fine to
+     */
+    public void applyFine(User user){
+        user.addFine(5);
+    }
+
+    /**
+     * Clears the fine for a user.
+     * @param user the user whose fine is to be cleared
+     */
+    public boolean  clearFine(User user){
+        
+         return user.clearFine();
+    }
+
+    /**
+     * Updates user statuses based on overdue loans.
+     * This method checks all active loans and suspends users with overdue loans.
+     * we first iterate through all loans in the loansMap. If a loan is found to be overdue (i.e., not returned and past its due date),
+     * we retrieve the associated user and set their status to suspended.
+     * we use lambda expressions and the forEach method to streamline the iteration and condition checking.
+     */
+    private void updateUserStatus() {
+
+        loansMap.values().forEach(loan -> {
+            if (!loan.isReturned() && loan.getDueDate() < currentDate) {
+
+                User user = getUser(loan.getUserId());
+                if (user != null) {
+                    user.setSuspended();
+                }
+                applyFine(user);
+            }
+            
+        }
+         
+        );
+
+        usersMap.values().forEach(this::ReactivateUser);
+        //“For each element in the collection, call ReactivateUser with that element as argument.”
+    		
+    }
+
+
+    /**
+     * Reactivates a user if they are suspended, have no fines, and no overdue loans.
+     * @param user the user to check and potentially reactivate
+     */
+    private void ReactivateUser(User user) {
+        if (user.isSuspended() &&
+            user.getFine() == 0 &&
+            user.getLoans().stream().noneMatch(loan -> loan.isOverdue(currentDate))) {
+            user.setActive();
+        }
+    }
+
+    /**
+     * Retrieves the notifications for a user by their ID.
+     * @param id the user ID
+     * @return list of notifications for the user
+     * we first retrieve the User object from the usersMap using the provided ID.
+     * Then, we call the getNotifications method on the User object to obtain their notifications.
+     */
+    public List<String> getUserNotifications(int id) {
+    
+        return usersMap.get(id).getNotifications();
+    }
+
 }

@@ -3,6 +3,11 @@ package bci.app.request;
 import bci.LibraryManager;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import bci.user.User;
+import bci.works.Work;
+import bci.app.exceptions.NoSuchUserException;
+import bci.app.exceptions.NoSuchWorkException;
+
 //FIXME maybe import classes
 
 /**
@@ -12,12 +17,14 @@ class DoRequestWork extends Command<LibraryManager> {
 
     DoRequestWork(LibraryManager receiver) {
         super(Label.REQUEST_WORK, receiver);
-        //FIXME maybe define fields
+        
     }
 
     @Override
     protected final void execute() throws CommandException {
-        //FIXME implement command
+    
+        
+        
     }
 
 }

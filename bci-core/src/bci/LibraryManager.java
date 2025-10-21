@@ -180,4 +180,19 @@ public class LibraryManager {
         return library.getAllUsers();
     }
 
+    //clears the fine of a user
+    public boolean payFine(User user, int amount) {
+        return library.clearFine(user);
+    }
+
+
+    /**
+     * Get user notifications by user ID
+     * @param userId
+     * @return List of notifications
+     */
+    public List<String > getUserNotifications(int userId) {
+        return library.getUserNotifications(userId);
+    }
+
 }

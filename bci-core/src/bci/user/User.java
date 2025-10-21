@@ -1,16 +1,18 @@
 package bci.user;
 
+import bci.notifications.Observer;
+import bci.works.Loan;
 import java.io.*;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
-import java.util.Objects;
-import bci.works.Loan;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class representing a user of the library system.
  */
-public class User implements Serializable {
+public class User implements Serializable, Observer {
 
     @java.io.Serial
     private static final long serialVersionUID = 202507171003L;
@@ -29,14 +31,14 @@ public class User implements Serializable {
     private final Deque<Boolean> lastReturns;
     /** Current fine amount for the user. */
     private int fine;
-
     /** List of active loans for the user. */
     private List<Loan> loans;
-
     /** Number of consecutive on-time returns. */
     private int consecOnTime = 0;
     /** Number of consecutive late returns. */
     private int consecLate = 0;
+    
+    private List<String> userNotifications= new ArrayList<>();
 
     /**
      * Constructs a new User.
@@ -132,8 +134,10 @@ public class User implements Serializable {
     /**
      * Clears the user's fine, setting it to zero.
      */
-    public void clearFine() {
+    public boolean clearFine() {
         this.fine = 0;
+        
+        return isSuspended();
     }
 
     /**
@@ -156,16 +160,26 @@ public class User implements Serializable {
 		this.loans.add(loan);
 	}
 	
-	/**Returns the list of active loans.
-	 */
-    
+    /**Returns the list of user notifications.
+     * @return list of notifications
+     */
+    public List<String> getNotifications() {
+        return userNotifications;
+    }
+
+    /**Returns the list of loans.
+     * @return list of loans
+     */ 
+    public List<Loan> getLoansList() {
+        return loans;
+    }
     
     /**
      * Checks if the user is suspended.
      * @return true if suspended, false otherwise
      */
     public boolean isSuspended() {
-        return this.status.canBorrow();
+        return !this.status.canBorrow();
     }
 
     /**
@@ -221,6 +235,12 @@ public class User implements Serializable {
     public String toString() {
         return toDisplayString();
     }
+
+	@Override
+	public void update(String message) {
+        userNotifications.add(message);
+		
+	}
 
     
 

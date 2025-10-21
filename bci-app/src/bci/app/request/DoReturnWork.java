@@ -1,8 +1,13 @@
 package bci.app.request;
 
 import bci.LibraryManager;
+import bci.user.User;
+import bci.works.Work;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import bci.app.exceptions.NoSuchUserException;
+import bci.app.exceptions.NoSuchWorkException;
+
 //FIXME maybe import classes
 
 /**
@@ -12,12 +17,12 @@ class DoReturnWork extends Command<LibraryManager> {
 
     DoReturnWork(LibraryManager receiver) {
         super(Label.RETURN_WORK, receiver);
-        //FIXME maybe define fields
+        
     }
 
     @Override
     protected final void execute() throws CommandException {
-        //FIXME implement command
+        
     }
 
 }

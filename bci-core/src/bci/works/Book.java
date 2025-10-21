@@ -3,6 +3,7 @@ package bci.works;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Class representing a Book in the library.
  */
@@ -34,6 +35,28 @@ public class Book extends Work {
      */
     public String getIsbn() {
         return isbn;
+    }
+
+    /**
+     * Returns the type name of the work (e.g., "Livro", "DVD").
+     * @return the type name
+     */
+    @Override
+    public String getWorkName() {
+        return "Livro";
+    }
+
+    /**
+     * Returns the additional info for the work (authors+ISBN for Book, director+IGAC for DVD).
+     * @return the additional info string
+     */    @Override
+    public String getAdditionalInfo() {
+        List<String> authorNames = new ArrayList<>();
+        for (Creator author : getCreators()) {
+            authorNames.add(author.getName());
+        }
+        String authors = String.join("; ", authorNames);
+        return authors + " - " + getIsbn();
     }
 
     /**
@@ -82,5 +105,6 @@ public class Book extends Work {
         return getId() + " - " + getAvailableCopies() + " de " + getTotalCopies() + " - Livro - " + getTitle() + " - " +
                getPrice() + " - " + getCategory() + " - " + authors + " - " + getIsbn();
     }
+
 
 }

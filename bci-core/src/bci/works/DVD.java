@@ -9,6 +9,7 @@ public class DVD extends Work {
     /** Director of the DVD. */
     private Creator director;
 
+
     @java.io.Serial
     private static final long serialVersionUID = 202507171003L;
  
@@ -40,6 +41,24 @@ public class DVD extends Work {
      */
     public Creator getDirector() {
         return getCreators().isEmpty() ? null : getCreators().get(0);
+    }
+
+    /**
+     * Returns the type name of the work (e.g., "Livro", "DVD").
+     * @return the type name
+     */
+    @Override
+    public String getWorkName() {
+        return "DVD";
+    }
+
+    /**
+     * Returns the additional info for the work (authors+ISBN for Book, director+IGAC for DVD).
+     * @return the additional info string
+     */
+    @Override
+    public String getAdditionalInfo() {
+        return getDirector() != null ? getDirector().getName() + " - " + getIgacNumber() : "";
     }
 
     /**

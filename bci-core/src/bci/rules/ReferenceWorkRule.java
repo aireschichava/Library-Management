@@ -10,7 +10,6 @@ import bci.works.Work;
 
 public class ReferenceWorkRule implements RequestRule {
 	
-	
 	private int id=5;
     @Override
     public boolean validate(User user, Work work) {

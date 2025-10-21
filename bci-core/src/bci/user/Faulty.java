@@ -1,7 +1,9 @@
 package bci.user;
 
 public class Faulty extends Behavior {
-    @Override
+    private static final long serialVersionUID = 1L;
+
+	@Override
     public String getName() {
         return "FALTOSO";
     }
