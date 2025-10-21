@@ -403,7 +403,6 @@ class Library implements Serializable {
     }
 
 
-
     /**
      * Return a work borrowed by a user.
      * @param userId user ID
@@ -434,6 +433,12 @@ class Library implements Serializable {
         return true;
     }
 
+    /**
+     * Finds an active loan for a user and work.
+     * @param userId user ID
+     * @param workId work ID
+     * @return the Loan object or null if not found
+     */
     public Loan findActiveLoan(int userId, int workId) {
         return loansMap.values().stream()
             .filter(l -> l.getUserId() == userId && 
@@ -592,15 +597,26 @@ class Library implements Serializable {
         loansMap.put(loanId, loan);
         user.setLoans(loan);
         work.decrementAvailableCopies();
+        // Notify observers interested in borrow events (REQUISIÇÃO)
+        work.notifyLoanObservers(work.loanMessage());
         return dueDate;
     }
 
     /**
-     * Adds a user as an observer to a work.
+     * Adds a user as an observer to a work for availability notifications.
+     * @param user the user to add as an observer
+     * @param work the work to observe
      */
     public void addObserver(User user, Work work) {
   
         work.addObserver(user);
+    }
+
+    /** Register a user as a Loan observer for the given work (REQUISIÇÃO). 
+     * every time a copy is loaned, the user will be notified.
+    */
+    public void addLoanObserver(User user, Work work) {
+        work.addLoanObserver(user);
     }
 
     public boolean payFine(User user) {

@@ -239,6 +239,12 @@ public class LibraryManager {
         library.addObserver(user, work);
     }
 
+    /** Register a user as a borrow observer for the given work (REQUISIÇÃO). */
+    public void addBorrowObserver(User user, Work work) {
+        _dirty = true;
+        library.addLoanObserver(user, work);
+    }
+
     public Loan findActiveLoan(int userId, int workId) {
         return library.findActiveLoan(userId, workId);
     }

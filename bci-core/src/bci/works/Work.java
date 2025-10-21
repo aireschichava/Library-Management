@@ -29,6 +29,8 @@ public abstract class Work implements Serializable, Observable {
     private int price;
     /** List of observers for the work. */
     private List <Observer> observers=new ArrayList<>();
+    /** Observers interested in borrow notifications (REQUISIÇÃO). */
+    private List<Observer> borrowObservers = new ArrayList<>();
 
     /**
      * Constructs a new Work.
@@ -143,15 +145,27 @@ public abstract class Work implements Serializable, Observable {
      */
     public boolean updateInventory(int amount) {
 
-    	if (amount>0 && availableCopies==0) {
-    		notifyObservers(message());
-    	}
+    	
         if (availableCopies + amount >= 0 && totalCopies + amount >= 0) {
             availableCopies += amount;
             totalCopies += amount;
+            if (amount>0 && availableCopies==1) {
+                notifyObservers(message());
+            }
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns a formatted borrow message string for the work (REQUISIÇÃO).
+     * this is used when a specific user requests a work and is notified about it
+     * @return the borrow message string
+     */
+    public String loanMessage() {
+        return "REQUISIÇÃO: " + getId() + " - " + getAvailableCopies() + " de " + getTotalCopies() + " - " +
+               getWorkName() + " - " + getTitle() + " - " + getPrice() + " - " + getCategory() +
+               " - " + getAdditionalInfo();
     }
 
 
@@ -183,8 +197,19 @@ public abstract class Work implements Serializable, Observable {
 		this.observers.remove(observer);
 		
 	}
+
+    /** Add an observer interested in borrow notifications */
+    public void addLoanObserver(Observer observer) {
+        borrowObservers.add(observer);
+    }
+
+    /** Remove an observer from borrow notifications */
+    public void removeLoanObserver(Observer observer) {
+        borrowObservers.remove(observer);
+    }
     /**
      * Notifies all observers with a message.
+     * these are general notifications about availability
      * @param message the message to send to observers
      */
 	@Override
@@ -195,6 +220,15 @@ public abstract class Work implements Serializable, Observable {
 		
 	}
 
+    /** Notify observers registered for borrow notifications
+     * @param message the borrow notification message
+     */
+    @Override
+    public void notifyLoanObservers(String message) {
+        for (Observer observer : borrowObservers) {
+            observer.update(message);
+        }
+    }
 
 
 //can be deleted after
@@ -216,11 +250,6 @@ public abstract class Work implements Serializable, Observable {
         }
         return false;
     }
-
-
-    //can be deleted after
-
- 
 
 
     
