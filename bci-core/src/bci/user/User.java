@@ -243,6 +243,10 @@ public class User implements Serializable, Observer {
         return toDisplayString();
     }
 
+    /**
+     * Updates the user with a notification message.
+     * @param message the notification message
+     */
 	@Override
 	public void update(String message) {
         userNotifications.add(message);
@@ -250,8 +254,6 @@ public class User implements Serializable, Observer {
 	}
 
     
-
-
 }
 
 

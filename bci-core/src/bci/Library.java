@@ -1,13 +1,12 @@
 package bci;
 
 import bci.exceptions.*;
-import bci.rules.RequestRule;
+import bci.rules.*;
 import bci.search.DefaultSearch;
 import bci.search.SearchByCreator;
 import bci.search.SearchByPrice;
 import bci.user.User;
 import bci.works.*;
-import bci.rules.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,8 +16,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import bci.rules.*;
-import bci.works.Loan;
 
 /**
  * Class that represents the library as a whole.
@@ -614,7 +611,14 @@ class Library implements Serializable {
         loansMap.put(loanId, loan);
         user.setLoans(loan);
         return dueDate;
+    }
 
+    /**
+     * Adds a user as an observer to a work.
+     */
+    public void addObserver(User user, Work work) {
+  
+        work.addObserver(user);
     }
 
 }

@@ -47,7 +47,7 @@ class DoRequestWork extends Command<LibraryManager> {
 			addBooleanField("Be_notified", Prompt.returnNotificationPreference());
 			boolean wantsNotification = booleanField("Be_notified");
 			if (wantsNotification)
-				work.addObserver(user);
+				_receiver.addObserver(user, work);
 			return;
 			
 		}

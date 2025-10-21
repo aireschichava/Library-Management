@@ -219,4 +219,13 @@ public class LibraryManager {
 		return library.LoanWork(user, work, requestDate);
     }
 
+    /** Adds a user as an observer to a work.
+     * @param user
+     * @param work
+     */
+    public void addObserver(User user, Work work) {
+  
+        library.addObserver(user, work);
+    }
+
 }
