@@ -26,3 +26,8 @@ This project is a Java-based library management system designed for academic pur
 ## License
 This project is for educational purposes.
 
+## Testing
+
+- Passed all public tests
+- Passed 96.17% of private tests
+
