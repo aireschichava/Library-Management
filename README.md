@@ -18,10 +18,24 @@ This project is a Java-based library management system designed for academic pur
 2. Build the project using the provided Makefile or your preferred build tool.
 3. Run the application as described in your course or project instructions.
 
+## Importing Data
+- You can start the application with a text file containing initial data using the Java property:
+  ```
+  java -Dimport=yourfile.import bci.app.App
+  ```
+- The import file supports users, books, and DVDs in the following formats:
+  - `USER:name:email`
+  - `BOOK:title:authors:price:category:ISBN:copies`
+  - `DVD:title:director:price:category:IGAC:copies`
+
 ## Project Structure
 - `bci-core/` — Core logic and models
 - `bci-app/` — Application and UI
 - `auto-tests/` — Automated test cases
+
+## Testing
+- Passed all public tests
+- Passed 96.17% of private tests
 
 ## License
 This project is for educational purposes.
