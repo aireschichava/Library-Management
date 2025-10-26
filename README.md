@@ -1,15 +1,28 @@
-# BCI application
+# Library Management System
 
-At the beginning of development, the repository contains skeleton code for the application. 
+This project is a Java-based library management system designed for academic purposes. It allows you to manage a library’s collection, users, and loan operations with extensibility in mind.
 
-* Core: `bci-core` contains the domain classes
-* Interaction: `bci-app` contains the user interaction classes
-* UML diagrams: `uml` will contain the diagrams from the first delivery
+## Features
+- Register and manage users (with behavior tracking)
+- Register and manage works (books, DVDs, etc.)
+- Handle loans, returns, and fines
+- Notification system for users
+- Search and inventory management
 
-The names of the classes already present must not be changed.
-Some classes must not be changed in any way, no matter the reason.
-See details on the course pages.
+## Technologies
+- Java
+- PO-uilib (UI library, required one directory above project root)
 
-Note that not all the code has to be working for all deliveries (penalties may apply).
-Check the assessment conditions on the course pages.
+## Getting Started
+1. Ensure PO-uilib is available one directory above the project root.
+2. Build the project using the provided Makefile or your preferred build tool.
+3. Run the application as described in your course or project instructions.
+
+## Project Structure
+- `bci-core/` — Core logic and models
+- `bci-app/` — Application and UI
+- `auto-tests/` — Automated test cases
+
+## License
+This project is for educational purposes.
 
