@@ -1,8 +1,5 @@
 # Library Management System
-> **Note:** This project was developed as an academic project for the subject *Object-Oriented Programming (OOP)* at Instituto Superior Técnico, University of Lisbon.
-
-
-This project is a Java-based library management system designed for academic purposes. It was developed in a group of 2 for the OOP course at Instituto Superior Técnico, University of Lisbon. It allows you to manage a library’s collection, users, and loan operations with extensibility in mind.
+> **Note:** This project is a Java-based library management system designed for academic purposes. It was developed in a group of 2 for the Subject *Object-Oriented Programming (OOP)*  at Instituto Superior Técnico, University of Lisbon. It allows you to manage a library’s collection, users, and loan operations with extensibility in mind.
 
 ## Features
 - Register and manage users (with behavior tracking)
@@ -67,11 +64,6 @@ java -cp ../po-uilib.jar:. bci.app.App
 
 ## License
 This project is for educational purposes.
-
-## Testing
-
-- Passed all public tests
-- Passed 96.17% of private tests
 
 
 ## Authors
