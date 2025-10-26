@@ -1,6 +1,8 @@
 # Library Management System
+> **Note:** This project was developed as an academic project for the subject *Object-Oriented Programming (OOP)* at Instituto Superior Técnico, University of Lisbon.
 
-This project is a Java-based library management system designed for academic purposes. It allows you to manage a library’s collection, users, and loan operations with extensibility in mind.
+
+This project is a Java-based library management system designed for academic purposes. It was developed in a group of 2 for the OOP course at Instituto Superior Técnico, University of Lisbon. It allows you to manage a library’s collection, users, and loan operations with extensibility in mind.
 
 ## Features
 - Register and manage users (with behavior tracking)
@@ -9,10 +11,35 @@ This project is a Java-based library management system designed for academic pur
 - Notification system for users
 - Search and inventory management
 
-## Technologies
-- Java
-- PO-uilib (UI library, required one directory above project root)
 
+## Technologies
+
+- Java (JDK 22)
+- PO-uilib (UI library)
+- Makefile (for build automation)
+
+
+### PO-uilib Dependency (JAR Extraction)
+
+This project requires the PO-uilib library for its user interface.
+
+**How to set up PO-uilib:**
+1. Download or obtain `po-uilib.tar` from this repository.
+2. Extract the JAR to the parent directory of the project:
+  ```sh
+  tar -xvf po-uilib.tar -C ..
+  ```
+  This will place `po-uilib.jar` one directory above the project root, as required.
+3. Ensure your `CLASSPATH` includes the path to `po-uilib.jar` when compiling and running the project.
+
+**Example:**
+```sh
+# Compile (from inside the project root):
+javac -cp ../po-uilib.jar:. bci-core/src/bci/*.java
+
+# Run:
+java -cp ../po-uilib.jar:. bci.app.App
+```
 ## Getting Started
 1. Ensure PO-uilib is available one directory above the project root.
 2. Build the project using the provided Makefile or your preferred build tool.
@@ -37,6 +64,7 @@ This project is a Java-based library management system designed for academic pur
 - Passed all public tests
 - Passed 96.17% of private tests
 
+
 ## License
 This project is for educational purposes.
 
@@ -44,4 +72,9 @@ This project is for educational purposes.
 
 - Passed all public tests
 - Passed 96.17% of private tests
+
+
+## Authors
+- Aires Nélio Chichava
+- Alexandre Miguel Aires
 
